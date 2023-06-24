@@ -59,10 +59,7 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
     write?.({
       args: [
         data.name,
-        data.description,
         data.documentNumber,
-        data.location,
-        data.category,
       ],
     });
 
@@ -90,27 +87,6 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
               id="documentNumber"
               {...register("documentNumber", { required: true })}
               label="CNPJ da Empresa"
-              sx={{ width: "50%" }}
-            />
-          </div>
-
-          <TextField
-            id="description"
-            {...register("description", { required: true })}
-            label="Descrição"
-          />
-
-          <div className="d-flex gap-3 w-100">
-            <TextField
-              id="location"
-              {...register("location", { required: true })}
-              label="Endereço da Empresa"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              id="category"
-              {...register("category", { required: true })}
-              label="Categoria da Empresa"
               sx={{ width: "50%" }}
             />
           </div>
