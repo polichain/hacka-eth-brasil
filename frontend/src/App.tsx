@@ -12,6 +12,7 @@ import { SignupPage } from "./pages/signup";
 import { ProfilePage } from "./pages/profile";
 import { EditProfilePage } from "./pages/edit-profile";
 import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export function App() {
   const { isConnected } = useAccount();
@@ -27,6 +28,8 @@ export function App() {
       // } else {
       //   setCurrentPage(Pagination.SignUp);
       // }
+    } else if (!isConnected) {
+      setCurrentPage(Pagination.Login);
     }
   }, [isConnected]);
 
@@ -46,6 +49,7 @@ export function App() {
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
             Título do Projeto
           </Typography>
+          <ConnectButton />
         </Toolbar>
       </AppBar>
 
