@@ -16,22 +16,19 @@ contract Plataform {
 
     function addCompany(
         string memory name,
-        string memory description,
-        string memory documentNumber,
-        string memory category
+        string memory documentNumber
     ) public {
         uint256[] memory _supplyChainsParticipant;
-        companies[msg.sender] = Utils.Company(name, description, documentNumber, category, _supplyChainsParticipant);
+        uint256[] memory _invitesToSupplyChain;
+        companies[msg.sender] = Utils.Company(name, documentNumber, _supplyChainsParticipant, _invitesToSupplyChain);
     }
 
     function updateCompany(
         string memory name,
-        string memory description,
-        string memory documentNumber,
-        string memory category
+        string memory documentNumber
     ) public {
         require(bytes(companies[msg.sender].name).length != 0, "Company does not exist");
-        companies[msg.sender] = Utils.Company(name, description, documentNumber, category, companies[msg.sender].supplyChainsParticipant);
+        companies[msg.sender] = Utils.Company(name, documentNumber, companies[msg.sender].supplyChainsParticipant, companies[msg.sender].invitesToSupplyChain);
     }
 
     function getCompany(address companyAddress) public view returns (Utils.Company memory) {
@@ -92,6 +89,17 @@ contract Plataform {
 
     function enterSupplyChain(uint256 supplyChainId) public {
         supplyChains[supplyChainId].enterSupplyChain(msg.sender);
+        for (uint i = 0; i < companies[msg.sender].invitesToSupplyChain.length; i++) {
+            if (companies[msg.sender].invitesToSupplyChain[i] == supplyChainId) {
+                uint256 lastIndex = companies[msg.sender].invitesToSupplyChain.length - 1;
+                if (i < lastIndex) {
+                    companies[msg.sender].invitesToSupplyChain[i] = companies[msg.sender].invitesToSupplyChain[lastIndex];
+                }
+                companies[msg.sender].invitesToSupplyChain.pop();
+                return;
+            }
+        }
+
     }
 
     function createAsset(uint256 supplyChainId, string memory _description) public {
@@ -112,6 +120,10 @@ contract Plataform {
 
     function getSuggestions(uint256 supplyChainId) public view returns (Utils.Suggestion[] memory) {
         return supplyChains[supplyChainId].getSuggestions();
+    }
+
+    function getInvites() public view returns (uint256[] memory) {
+        return companies[msg.sender].invitesToSupplyChain;
     }
 
     function makeSuggestion(uint256 supplyChainId, Utils.SuggestionType suggestionType, bytes memory parameter) public {

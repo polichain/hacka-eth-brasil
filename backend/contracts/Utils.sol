@@ -17,10 +17,9 @@ contract Utils {
 
     struct Company {
         string name;
-        string description;
         string documentNumber;
-        string category;
         uint256[] supplyChainsParticipant;
+        uint256[] invitesToSupplyChain;
     }
 
     struct Suggestion {
