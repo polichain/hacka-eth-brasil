@@ -7,13 +7,13 @@ import {
   BottomNavigation,
   BottomNavigationAction,
 } from "@mui/material";
-import { Pagination, Role } from "./types";
+import { Company, Pagination, Role } from "./types";
 import { useEffect, useState } from "react";
 import { LoginPage } from "./pages/login";
 import { SignupPage } from "./pages/signup";
 import { ProfilePage } from "./pages/profile";
 import { EditProfilePage } from "./pages/edit-profile";
-import { useAccount } from "wagmi";
+import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { CompaniesListPage } from "./pages/companies-list";
 import { UserFilterPage } from "./pages/user-filter";
@@ -21,14 +21,26 @@ import { RoleSelectorPage } from "./pages/role-selector";
 import SearchIcon from "@mui/icons-material/Search";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import contractConfig from "./contracts/contract-config.json";
 
 export function App() {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const theme = useTheme();
 
   const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
   const [selectedRole, setSelectedRole] = useState<Role>();
 
+  // Get contract data
+  const getCompanyByAddress:Company|any = useContractRead({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "getCompany",
+    args: [address],
+  }).data;
+  // End get contract data
+
+  console.log("getCompanyByAddress: ")
+  console.log(getCompanyByAddress)
   useEffect(() => {
     if (!isConnected) {
       setCurrentPage(Pagination.Login);
@@ -42,6 +54,16 @@ export function App() {
         // }
       }
     }
+        if(getCompanyByAddress?.name){
+          setCurrentPage(Pagination.Profile);  
+        } else {
+        setCurrentPage(Pagination.SignUp);
+        }
+      // if (true) {
+      //   setCurrentPage(Pagination.Profile);
+      // } else {
+      //   setCurrentPage(Pagination.SignUp);
+      // }
   }, [isConnected]);
 
   return (
