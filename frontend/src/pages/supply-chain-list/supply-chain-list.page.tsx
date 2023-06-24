@@ -31,7 +31,7 @@ export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
         <Button
           variant="outlined"
           onClick={() => {
-            // setCurrentPage();
+            setCurrentPage(Pagination.SupplyChainCreate);
           }}
         >
           <Typography variant="subtitle2" fontWeight="600">
