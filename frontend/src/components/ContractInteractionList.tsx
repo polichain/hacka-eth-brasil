@@ -21,18 +21,6 @@ export function ContractInteractionList() {
                     <TransactionForm />
                 </AccordionDetails>
             </Accordion>
-            <Accordion disabled={!isConnected}>
-                <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-                >
-                    <Typography>Exemplos Wagmi</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <WagmiColection />
-                </AccordionDetails>
-            </Accordion>
         </Box>
     );
 }
