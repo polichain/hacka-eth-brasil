@@ -20,7 +20,7 @@ export const SupplyChainCreatePage: React.FC<SupplyChainCreatePageProps> = ({
     functionName: "createSupplyChain",
   });
 
-  const handleSignupSubmit = (data: Company | any) => {
+  const handleSupplyChainSubmit = (data: any) => {
     write?.({
       args: [data.name, data.description],
     });
@@ -29,7 +29,7 @@ export const SupplyChainCreatePage: React.FC<SupplyChainCreatePageProps> = ({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit((data) => handleSignupSubmit(data))}>
+      <form onSubmit={handleSubmit((data) => handleSupplyChainSubmit(data))}>
         <div className="d-flex flex-column align-items-center px-3 pt-3 gap-3">
           <Typography variant="h6">
             Complete o cadastro de sua cadeia de suprimentos:
@@ -51,7 +51,7 @@ export const SupplyChainCreatePage: React.FC<SupplyChainCreatePageProps> = ({
         <div className="d-flex flex-column align-items-center w-30">
         <Button variant="outlined" type="submit">
             <Typography variant="subtitle2" fontWeight="600">
-            Completar cadastro
+            Criar cadeia
             </Typography>
         </Button>
         </div>
