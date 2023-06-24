@@ -18,9 +18,12 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { CompaniesListPage } from "./pages/companies-list";
 import { UserFilterPage } from "./pages/user-filter";
 import { RoleSelectorPage } from "./pages/role-selector";
+import { SupplyChainListPage } from "./pages/supply-chain-list";
+import { SupplyChainInvitePage } from "./pages/supply-chain-invite";
+import { SupplyChainInvitesListPage } from "./pages/supply-chain-invites-list";
 import SearchIcon from "@mui/icons-material/Search";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import LinkIcon from "@mui/icons-material/Link";
 
 export function App() {
   const { isConnected } = useAccount();
@@ -58,7 +61,7 @@ export function App() {
       >
         <Toolbar sx={{ backgroundColor: "#212121" }}>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            Título do Projeto
+            ChainLinker
           </Typography>
           <ConnectButton />
         </Toolbar>
@@ -83,14 +86,25 @@ export function App() {
         {currentPage === Pagination.CompaniesList && (
           <CompaniesListPage setCurrentPage={setCurrentPage} />
         )}
+        {currentPage === Pagination.SupplyChainList && (
+          <SupplyChainListPage setCurrentPage={setCurrentPage} />
+        )}
+        {currentPage === Pagination.SupplyChainInvite && (
+          <SupplyChainInvitePage />
+        )}
+        {currentPage === Pagination.SupplyChainInvitesList && (
+          <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} />
+        )}
 
         {selectedRole && (
           <BottomNavigation
             sx={{
+              backgroundColor: "#212121",
               width: "100%",
               position: "absolute",
               bottom: 0,
-              backgroundColor: "#212121",
+              paddingTop: "32px",
+              paddingBottom: "32px",
             }}
             value={currentPage}
             onChange={(event, value) => setCurrentPage(value)}
@@ -106,9 +120,9 @@ export function App() {
 
             {selectedRole === Role.company && (
               <BottomNavigationAction
-                label="Lista de empresas"
-                value={Pagination.CompaniesList}
-                icon={<FormatListBulletedIcon />}
+                label="Cadeias de suprimentos"
+                value={Pagination.SupplyChainList}
+                icon={<LinkIcon />}
               />
             )}
 

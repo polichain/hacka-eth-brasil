@@ -5,5 +5,8 @@ export enum Pagination {
   Profile = "ProfilePage",
   EditProfile = "EditProfilePage",
   CompaniesList = "CompaniesListPage",
+  SupplyChainInvite = "SupplyChainInvitePage",
+  SupplyChainInvitesList = "SupplyChainInvitesListPage",
+  SupplyChainList = "SupplyChainListPage",
   UserFilter = "UserFilterPage",
 }
