@@ -3,14 +3,14 @@
 	"version": "1.0.0",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/polichain/backend"
+		"url": "git+https://github.com/polichain/hacka-eth-brazil/backend"
 	},
 	"author": "Polichain",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/polichain/web3-dapp-template/issues"
+		"url": "https://github.com/polichain/hacka-eth-brazil/issues"
 	},
-	"homepage": "https://github.com/polichain/backend#readme",
+	"homepage": "https://github.com/polichain/hacka-eth-brazil/backend#readme",
     "dependencies": {
         "@openzeppelin/contracts": "^4.8.3"
     },
