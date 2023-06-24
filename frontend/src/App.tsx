@@ -21,6 +21,7 @@ import { RoleSelectorPage } from "./pages/role-selector";
 import { SupplyChainListPage } from "./pages/supply-chain-list";
 import { SupplyChainInvitePage } from "./pages/supply-chain-invite";
 import { SupplyChainInvitesListPage } from "./pages/supply-chain-invites-list";
+import { SupplyChainCreatePage } from "./pages/supply-chain-create";
 import SearchIcon from "@mui/icons-material/Search";
 import LinkIcon from "@mui/icons-material/Link";
 import ApartmentIcon from "@mui/icons-material/Apartment";
@@ -105,6 +106,9 @@ export function App() {
         )}
         {currentPage === Pagination.SupplyChainInvitesList && (
           <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} />
+        )}
+        {currentPage === Pagination.SupplyChainCreate && (
+          <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
         )}
 
         {selectedRole && (
