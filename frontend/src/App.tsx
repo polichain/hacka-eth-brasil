@@ -14,14 +14,14 @@ import { EditProfilePage } from "./pages/edit-profile";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { CompaniesListPage } from "./pages/companies-list";
+import { UserFilterPage } from "./pages/user-filter";
+import { RoleSelectorPage } from "./pages/role-selector";
 
 export function App() {
   const { isConnected } = useAccount();
   const theme = useTheme();
 
-  const [currentPage, setCurrentPage] = useState<Pagination>(
-    Pagination.CompaniesList
-  );
+  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
 
   useEffect(() => {
     if (!isConnected) {
@@ -29,12 +29,12 @@ export function App() {
     } else {
       if (currentPage === Pagination.Login) {
         setCurrentPage(Pagination.Profile);
+        // if (true) {
+        //   setCurrentPage(Pagination.Profile);
+        // } else {
+        // setCurrentPage(Pagination.RoleSelector);
+        // }
       }
-      // if (true) {
-      //   setCurrentPage(Pagination.Profile);
-      // } else {
-      //   setCurrentPage(Pagination.SignUp);
-      // }
     }
   }, [isConnected]);
 
@@ -59,7 +59,11 @@ export function App() {
       </AppBar>
 
       {currentPage === Pagination.Login && <LoginPage />}
+      {currentPage === Pagination.RoleSelector && (
+        <RoleSelectorPage setCurrentPage={setCurrentPage} />
+      )}
       {currentPage === Pagination.SignUp && <SignupPage />}
+      {currentPage === Pagination.UserFilter && <UserFilterPage />}
       {currentPage === Pagination.Profile && (
         <ProfilePage setCurrentPage={setCurrentPage} />
       )}

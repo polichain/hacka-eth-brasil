@@ -61,7 +61,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
 
       <div className="d-flex flex-column align-items-center w-30">
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={() => setCurrentPage(Pagination.EditProfile)}
         >
           <Typography variant="subtitle2" fontWeight="600">
