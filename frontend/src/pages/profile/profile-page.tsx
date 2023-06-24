@@ -1,12 +1,15 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Company, Pagination } from "../../types";
+import contractConfig from "../../contracts/contract-config.json";
+import { Address, useAccount, useContractRead } from "wagmi";
+import { useEffect, useState } from "react";
 
 const MOCK_PROFILE: Company = {
   name: "Teste mock",
-  cnpj: "123456789",
+  documentNumber: "123456789",
   category: "Teste mock",
   description: "Teste mock",
-  address: "Teste mock",
+  location: "Teste mock",
 };
 
 interface ProfilePageProps {
@@ -16,6 +19,28 @@ interface ProfilePageProps {
 export const ProfilePage: React.FC<ProfilePageProps> = ({
   setCurrentPage,
 }: ProfilePageProps) => {
+  const { address } = useAccount();
+  const [formData, setFormData] = useState<Company>();
+
+  const data_edit: Company | any = useContractRead({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "getCompany",
+    args: [address],
+  }).data;
+
+  useEffect(() => {
+    if (data_edit) {
+      setFormData({
+        name: data_edit.name,
+        description: data_edit.description,
+        documentNumber: data_edit.documentNumber,
+        location: data_edit.location,
+        category: data_edit.category,
+      });
+    }
+  }, []);
+
   return (
     <div className="d-flex flex-column px-3 pt-3 gap-3">
       <div className="d-flex gap-3">
@@ -23,14 +48,14 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           id="name"
           label="Nome da Empresa"
           sx={{ width: "50%" }}
-          value={MOCK_PROFILE.name}
+          value={formData?.name}
           disabled
         />
         <TextField
           id="cnpj"
           label="CNPJ da Empresa"
           sx={{ width: "50%" }}
-          value={MOCK_PROFILE.cnpj}
+          value={formData?.documentNumber}
           disabled
         />
       </div>
@@ -38,7 +63,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
       <TextField
         id="description"
         label="Descrição"
-        value={MOCK_PROFILE.description}
+        value={formData?.description}
         disabled
       />
 
@@ -47,14 +72,14 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           id="address"
           label="Endereço da Empresa"
           sx={{ width: "50%" }}
-          value={MOCK_PROFILE.address}
+          value={formData?.location}
           disabled
         />
         <TextField
           id="category"
           label="Categoria da Empresa"
           sx={{ width: "50%" }}
-          value={MOCK_PROFILE.category}
+          value={formData?.category}
           disabled
         />
       </div>

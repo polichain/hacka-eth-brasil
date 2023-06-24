@@ -33,7 +33,7 @@ function saveFrontendFiles(contract: Contract, name: string) {
   
 	fs.writeFileSync(
     path.join(contractsDir, "contract-config.json"),
-    JSON.stringify({ address: contract.address, abi: ContractArtifact }, undefined, 2)
+    JSON.stringify({ address: contract.address, abi: ContractArtifact.abi }, undefined, 2)
 	);
 }
 

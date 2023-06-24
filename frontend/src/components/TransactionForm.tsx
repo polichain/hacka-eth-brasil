@@ -1,154 +1,183 @@
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
-import { TextField, Stack, Typography, Box, Snackbar, AlertProps } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton'
-import { Address, useAccount, useBalance, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
-import contractConfig from '../contracts/contract-config.json'
-import MuiAlert, { AlertColor } from '@mui/material/Alert';
+import React, { ChangeEventHandler, useEffect, useState } from "react";
+import {
+  TextField,
+  Stack,
+  Typography,
+  Box,
+  Snackbar,
+  AlertProps,
+} from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  Address,
+  useAccount,
+  useBalance,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import contractConfig from "../contracts/contract-config.json";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
-  ref,
+  ref
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const TransactionForm = () => {
-  const account = useAccount()
-  const [amount, setAmount] = useState<bigint>(0n);
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
-  const [snackbarText, setSnackbarText] = useState<string>('');
-  const [severitySnackbar, setSeveritySnackbar] = useState<AlertColor>('error');
-  const balance = useBalance({
-    token: contractConfig[1].address as Address,
-    address: account.address,
-    watch: true,
-  })
+  const [snackbarText, setSnackbarText] = useState<string>("");
+  const [severitySnackbar, setSeveritySnackbar] = useState<AlertColor>("error");
 
-  const handleAmountChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setAmount(BigInt(event.target.value) * 1000000000000000000n);
+  // Variável form
+  const [nome, setNome] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [documento, setDocumento] = useState('');
+  const [localizacao, setLocalizacao] = useState('');
+  const [categoria, setCategoria] = useState('');
+  
+  const handleNomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNome(event.target.value);
   };
 
+  const handleDescricaoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescricao(event.target.value);
+  };
 
-  const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
+  const handleDocumentoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDocumento(event.target.value);
+  };
+
+  const handleLocalizacaoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalizacao(event.target.value);
+  };
+
+  const handleCategoriaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoria(event.target.value);
+  };
+
+  // Fim variável form
+
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpenSnackbar(false);
   };
 
-  const approveWrite = useContractWrite({
-    address: contractConfig[1].address as Address,
-    abi: contractConfig[1].abi,
-    functionName: 'approve',
-    onError(error) {
-      setSeveritySnackbar('error')
-      setOpenSnackbar(true)
-      setSnackbarText(error.message || '')
-    },
-    onSuccess(data) {
-      setSeveritySnackbar('success')
-      setOpenSnackbar(true)
-      setSnackbarText('Aprovação de valor concluída!')
-    },
-  })
-  const waitApprove = useWaitForTransaction({ hash: approveWrite.data?.hash })
-
+  // Get contract data
   const sharesData = useContractRead({
-    address: contractConfig[0].address as Address,
-    abi: contractConfig[0].abi,
-    functionName: 'balanceOf',
-    args: [account.address],
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: 'getCompany',
+    args: ['0xBcd4042DE499D14e55001CcbB24a551F3b954096'],
     watch: true
   })
+  // End get contract data
 
-  const depositWrite = useContractWrite({
-    address: contractConfig[0].address as Address,
-    abi: contractConfig[0].abi,
-    functionName: 'deposit',
+  // Start add company
+  const addCompanyWrite = useContractWrite({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "addCompany",
     onError(error) {
-      setSeveritySnackbar('error')
-      setOpenSnackbar(true)
-      setSnackbarText(error.message || '')
+      setSeveritySnackbar("error");
+      setOpenSnackbar(true);
+      setSnackbarText(error.message || "");
     },
     onSuccess(data) {
-      setSeveritySnackbar('success')
-      setOpenSnackbar(true)
-      setSnackbarText('Deposito efetuado com sucesso!')
+      setSeveritySnackbar("success");
+      setOpenSnackbar(true);
+      setSnackbarText("Deposito efetuado com sucesso!");
     },
-  })
-  const waitDeposit = useWaitForTransaction({ hash: depositWrite.data?.hash })
+  });
+  const waitAddCompanyWrite = useWaitForTransaction({ hash: addCompanyWrite.data?.hash });
 
-  const withdrawWrite = useContractWrite({
-    address: contractConfig[0].address as Address,
-    abi: contractConfig[0].abi,
-    functionName: 'withdraw',
-    onError(error) {
-      setSeveritySnackbar('error')
-      setOpenSnackbar(true)
-      setSnackbarText(error.message || '')
-    },
-    onSuccess(data) {
-      setSeveritySnackbar('success')
-      setOpenSnackbar(true)
-      setSnackbarText('Saque efetuado com sucesso!')
-    },
-  })
-  const waitWithdraw = useWaitForTransaction({ hash: withdrawWrite.data?.hash })
+  const handleAddCompany = () => {
+    addCompanyWrite.write({
+      args: [nome, descricao, documento, localizacao, categoria],
+    });
+  };
+  // End add company
   
-  const handleDeposit = () => {
-    depositWrite.write({
-      args: [BigInt(amount)],
-    })
-  };
-
-  const handleWithdraw = () => {
-    withdrawWrite.write({
-      args: [BigInt(amount)],
-    })
-  };
-
-  const handleApprove= () => {
-    approveWrite.write({
-      args: [contractConfig[0].address as Address, BigInt(amount)],
-    })
-  };
-
   return (
     <Box>
       <Stack direction="row" alignItems="center" spacing={2}>
         <TextField
-          id="standard-number"
-          label="Amount"
-          type="number"
+          id="nome"
+          label="Nome"
+          type="string"
           InputLabelProps={{
             shrink: true,
-          }}  
+          }}
           variant="standard"
-          onChange={handleAmountChange} />
-
-        <Typography variant="body1">Saldo: {balance.data?.formatted ?? 0}</Typography>
-        <Typography variant="body1">Shares: {sharesData.data?.toString() ?? 0}</Typography>
+          value={nome}
+          onChange={handleNomeChange}
+        />
+        <TextField
+          id="descricao"
+          label="Descrição"
+          type="string"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="standard"
+          value={descricao}
+          onChange={handleDescricaoChange}
+        />
+        <TextField
+          id="documento"
+          label="Documento"
+          type="string"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="standard"
+          value={documento}
+          onChange={handleDocumentoChange}
+        />
+        <TextField
+          id="localizacao"
+          label="Localização"
+          type="string"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="standard"
+          value={localizacao}
+          onChange={handleLocalizacaoChange}
+        />
+        <TextField
+          id="categoria"
+          label="Categoria"
+          type="string"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="standard"
+          value={categoria}
+          onChange={handleCategoriaChange}
+        />
       </Stack>
-      <br />
       <Stack direction="row" spacing={2}>
-          <LoadingButton loading={waitDeposit.isLoading || depositWrite.isLoading} variant="outlined" color="primary" onClick={handleDeposit}>
+          <LoadingButton loading={addCompanyWrite.isLoading || waitAddCompanyWrite.isLoading} variant="outlined" color="primary" onClick={handleAddCompany}>
             Deposit
           </LoadingButton>
-          <LoadingButton loading={waitWithdraw.isLoading || withdrawWrite.isLoading} variant="outlined" color="secondary" onClick={handleWithdraw}>
-            Withdraw
-          </LoadingButton>
-          <LoadingButton loading={waitApprove.isLoading || approveWrite.isLoading} variant="outlined" color="warning" onClick={handleApprove}>
-            Approve
-          </LoadingButton>
       </Stack>
+      <Typography variant="body1">Shares: {sharesData.data?.toString() ?? 0}</Typography>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity={severitySnackbar} sx={{ width: '100%' }}>
           {snackbarText}
         </Alert>
       </Snackbar>
     </Box>
-    
   );
 };
 
