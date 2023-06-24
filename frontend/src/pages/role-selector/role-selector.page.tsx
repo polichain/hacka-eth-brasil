@@ -1,18 +1,23 @@
 import { Button, Typography } from "@mui/material";
-import { Pagination } from "../../types";
+import { Pagination, Role } from "../../types";
 
 interface RoleSelectorPageProps {
   setCurrentPage: (page: Pagination) => void;
+  setSelectedRole: (role: Role) => void;
 }
 
 export const RoleSelectorPage: React.FC<RoleSelectorPageProps> = ({
   setCurrentPage,
+  setSelectedRole,
 }: RoleSelectorPageProps) => {
   return (
     <div className="d-flex justify-content-center gap-3 p-3">
       <Button
         variant="outlined"
-        onClick={() => setCurrentPage(Pagination.UserFilter)}
+        onClick={() => {
+          setCurrentPage(Pagination.UserFilter);
+          setSelectedRole(Role.user);
+        }}
       >
         <Typography variant="subtitle2" fontWeight="600">
           Sou um usuário
@@ -21,7 +26,10 @@ export const RoleSelectorPage: React.FC<RoleSelectorPageProps> = ({
 
       <Button
         variant="outlined"
-        onClick={() => setCurrentPage(Pagination.SignUp)}
+        onClick={() => {
+          setCurrentPage(Pagination.SignUp);
+          setSelectedRole(Role.company);
+        }}
       >
         <Typography variant="subtitle2" fontWeight="600">
           Sou uma empresa
