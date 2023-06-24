@@ -55,7 +55,9 @@ export const SignupPage: React.FC = () => {
 
           <div className="d-flex flex-column align-items-center w-30">
             <Button variant="contained" type="submit">
-              Completar cadastro
+              <Typography variant="subtitle2" fontWeight="600">
+                Completar cadastro
+              </Typography>
             </Button>
           </div>
         </div>

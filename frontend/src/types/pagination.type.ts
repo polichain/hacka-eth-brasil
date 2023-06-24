@@ -3,5 +3,5 @@ export enum Pagination {
   SignUp = "SignUpPage",
   Profile = "ProfilePage",
   EditProfile = "EditProfilePage",
-  //   ListCompanies = "ListCompaniesPage",
+  CompaniesList = "CompaniesListPage",
 }

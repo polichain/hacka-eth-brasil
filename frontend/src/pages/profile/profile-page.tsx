@@ -64,7 +64,9 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           variant="contained"
           onClick={() => setCurrentPage(Pagination.EditProfile)}
         >
-          Editar perfil
+          <Typography variant="subtitle2" fontWeight="600">
+            Editar perfil
+          </Typography>
         </Button>
       </div>
     </div>

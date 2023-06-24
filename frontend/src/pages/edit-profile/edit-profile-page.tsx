@@ -55,7 +55,9 @@ export const EditProfilePage: React.FC = () => {
 
           <div className="d-flex flex-column align-items-center w-30">
             <Button variant="contained" type="submit">
-              Salvar edição
+              <Typography variant="subtitle2" fontWeight="600">
+                Salvar edição
+              </Typography>
             </Button>
           </div>
         </div>

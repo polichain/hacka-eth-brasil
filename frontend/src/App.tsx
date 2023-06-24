@@ -13,23 +13,28 @@ import { ProfilePage } from "./pages/profile";
 import { EditProfilePage } from "./pages/edit-profile";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { CompaniesListPage } from "./pages/companies-list";
 
 export function App() {
   const { isConnected } = useAccount();
   const theme = useTheme();
 
-  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
+  const [currentPage, setCurrentPage] = useState<Pagination>(
+    Pagination.CompaniesList
+  );
 
   useEffect(() => {
-    if (isConnected && currentPage === Pagination.Login) {
-      setCurrentPage(Pagination.Profile);
+    if (!isConnected) {
+      setCurrentPage(Pagination.Login);
+    } else {
+      if (currentPage === Pagination.Login) {
+        setCurrentPage(Pagination.Profile);
+      }
       // if (true) {
       //   setCurrentPage(Pagination.Profile);
       // } else {
       //   setCurrentPage(Pagination.SignUp);
       // }
-    } else if (!isConnected) {
-      setCurrentPage(Pagination.Login);
     }
   }, [isConnected]);
 
@@ -59,6 +64,9 @@ export function App() {
         <ProfilePage setCurrentPage={setCurrentPage} />
       )}
       {currentPage === Pagination.EditProfile && <EditProfilePage />}
+      {currentPage === Pagination.CompaniesList && (
+        <CompaniesListPage setCurrentPage={setCurrentPage} />
+      )}
     </div>
   );
 }
