@@ -77,7 +77,7 @@ const TransactionForm = () => {
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
     functionName: 'getCompany',
-    args: [1],
+    args: ['0xBcd4042DE499D14e55001CcbB24a551F3b954096'],
     watch: true
   })
   // End get contract data
@@ -105,8 +105,8 @@ const TransactionForm = () => {
       args: [nome, descricao, documento, localizacao, categoria],
     });
   };
-
   // End add company
+  
   return (
     <Box>
       <Stack direction="row" alignItems="center" spacing={2}>
