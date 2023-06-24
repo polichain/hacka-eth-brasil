@@ -1,25 +1,39 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { AppBar, Container, Toolbar, Typography, CssBaseline, useTheme } from '@mui/material'
-import { ContractInteractionList } from './components/ContractInteractionList'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  CssBaseline,
+  useTheme,
+} from "@mui/material";
+import { Pagination } from "./types";
+import { useState } from "react";
+import { LoginPage } from "./pages/login";
 
 export function App() {
   const theme = useTheme();
-  
+
+  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
+
   return (
-    <div style={{ backgroundColor: theme.palette.background.default, height: '100vh' }}>
+    <div
+      style={{
+        backgroundColor: theme.palette.background.default,
+        height: "100vh",
+      }}
+    >
       <CssBaseline />
-      <AppBar position="sticky" sx={{ backgroundColor: theme.palette.background.default }}>
+      <AppBar
+        position="sticky"
+        sx={{ backgroundColor: theme.palette.background.default }}
+      >
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Wagmi + RainbowKit + Vite
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+            Título do Projeto
           </Typography>
-          <ConnectButton />
         </Toolbar>
       </AppBar>
 
-      <Container sx={{ paddingTop: '64px', backgroundColor: theme.palette.background.default }}>
-        <ContractInteractionList />
-      </Container>     
+      {currentPage === Pagination.Login && <LoginPage />}
     </div>
-  )
+  );
 }
