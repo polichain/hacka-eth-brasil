@@ -1,13 +1,16 @@
-import {
-  Button, TextField,
-  Typography
-} from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import contractConfig from "../../contracts/contract-config.json";
 import { Address, useContractWrite } from "wagmi";
-import { Company } from "../../types";
+import { Company, Pagination } from "../../types";
 
-export const SignupPage: React.FC = () => {
+interface SignupPageProps {
+  setCurrentPage: (page: Pagination) => void;
+}
+
+export const SignupPage: React.FC<SignupPageProps> = ({
+  setCurrentPage,
+}: SignupPageProps) => {
   const form = useForm();
   const { handleSubmit, register } = form;
 
@@ -15,15 +18,14 @@ export const SignupPage: React.FC = () => {
   const { write, data, error, isLoading, isError } = useContractWrite({
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
-    functionName: 'addCompany',
-  })
+    functionName: "addCompany",
+  });
 
-  const handleSignupSubmit = (data:Company|any) => {
-    write?.({args: [data.name,
-      data.description,
-      data.documentNumber,
-      data.location,
-      data.category]});
+  const handleSignupSubmit = (data: Company | any) => {
+    write?.({
+      args: [data.name, data.documentNumber],
+    });
+    setCurrentPage(Pagination.Profile);
   };
   // End add company
 
@@ -46,27 +48,6 @@ export const SignupPage: React.FC = () => {
               id="documentNumber"
               {...register("documentNumber", { required: true })}
               label="CNPJ da Empresa"
-              sx={{ width: "50%" }}
-            />
-          </div>
-
-          <TextField
-            id="description"
-            {...register("description", { required: true })}
-            label="Descrição"
-          />
-
-          <div className="d-flex gap-3 w-100">
-            <TextField
-              id="location"
-              {...register("location", { required: true })}
-              label="Endereço da Empresa"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              id="category"
-              {...register("category", { required: true })}
-              label="Categoria da Empresa"
               sx={{ width: "50%" }}
             />
           </div>

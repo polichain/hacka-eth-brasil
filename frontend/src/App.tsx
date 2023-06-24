@@ -84,7 +84,9 @@ export function App() {
             setSelectedRole={setSelectedRole}
           />
         )}
-        {currentPage === Pagination.SignUp && <SignupPage />}
+        {currentPage === Pagination.SignUp && (
+          <SignupPage setCurrentPage={setCurrentPage} />
+        )}
         {currentPage === Pagination.UserFilter && <UserFilterPage />}
         {currentPage === Pagination.Profile && (
           <ProfilePage setCurrentPage={setCurrentPage} />
