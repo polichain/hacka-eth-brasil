@@ -1,6 +1,15 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
-import { Pagination } from "../../types";
+import { Company, Pagination } from "../../types";
+import contractConfig from "../../contracts/contract-config.json";
+import {
+  Address,
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import { useEffect } from "react";
 
 interface EditProfilePageProps {
   setCurrentPage: (page: Pagination) => void;
@@ -9,13 +18,58 @@ interface EditProfilePageProps {
 export const EditProfilePage: React.FC<EditProfilePageProps> = ({
   setCurrentPage,
 }: EditProfilePageProps) => {
+  const { address } = useAccount();
   const form = useForm();
-  const { handleSubmit, register } = form;
 
-  const handleEditProfileSubmit = (data: any) => {
+  const { handleSubmit, register, setValue } = form;
+
+  const data_edit: Company | any = useContractRead({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "getCompany",
+    args: [address],
+  }).data;
+
+  useEffect(() => {
+    if (data_edit) {
+      setValue("name", data_edit.name);
+      setValue("description", data_edit.description);
+      setValue("documentNumber", data_edit.documentNumber);
+      setValue("location", data_edit.location);
+      setValue("category", data_edit.category);
+    }
+  }, []);
+
+  //Prepare contract write
+  const { write, data } = useContractWrite({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "addCompany",
+  });
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
+  if(isSuccess){
+    setCurrentPage(Pagination.Profile)
+  }
+
+  const handleEditProfileSubmit = (data: Company | any) => {
+    write?.({
+      args: [
+        data.name,
+        data.description,
+        data.documentNumber,
+        data.location,
+        data.category,
+      ],
+    });
+
+    console.log("handleEditProfileSubmit:");
     console.log(data);
-    setCurrentPage(Pagination.Profile);
   };
+  // End add company
 
   return (
     <FormProvider {...form}>
@@ -33,8 +87,8 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
               sx={{ width: "50%" }}
             />
             <TextField
-              id="cnpj"
-              {...register("cnpj", { required: true })}
+              id="documentNumber"
+              {...register("documentNumber", { required: true })}
               label="CNPJ da Empresa"
               sx={{ width: "50%" }}
             />
@@ -48,8 +102,8 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
 
           <div className="d-flex gap-3 w-100">
             <TextField
-              id="address"
-              {...register("address", { required: true })}
+              id="location"
+              {...register("location", { required: true })}
               label="Endereço da Empresa"
               sx={{ width: "50%" }}
             />
@@ -62,9 +116,13 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
           </div>
 
           <div className="d-flex flex-column align-items-center w-30">
-            <Button variant="outlined" type="submit">
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={!write || isLoading}
+            >
               <Typography variant="subtitle2" fontWeight="600">
-                Salvar edição
+                {isLoading ? "Salvando..." : "Salvar edição"}
               </Typography>
             </Button>
           </div>

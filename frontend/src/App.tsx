@@ -13,7 +13,7 @@ import { LoginPage } from "./pages/login";
 import { SignupPage } from "./pages/signup";
 import { ProfilePage } from "./pages/profile";
 import { EditProfilePage } from "./pages/edit-profile";
-import { Address, useAccount, useContractRead } from "wagmi";
+import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { CompaniesListPage } from "./pages/companies-list";
 import { UserFilterPage } from "./pages/user-filter";
@@ -31,16 +31,16 @@ export function App() {
   const [selectedRole, setSelectedRole] = useState<Role>();
 
   // Get contract data
-  const sharesData:Company|any = useContractRead({
+  const getCompanyByAddress:Company|any = useContractRead({
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
     functionName: "getCompany",
     args: [address],
-    watch: true,
   }).data;
   // End get contract data
 
-  console.log(sharesData)
+  console.log("getCompanyByAddress: ")
+  console.log(getCompanyByAddress)
   useEffect(() => {
     if (!isConnected) {
       setCurrentPage(Pagination.Login);
@@ -54,7 +54,7 @@ export function App() {
         // }
       }
     }
-        if(sharesData.data?.name){
+        if(getCompanyByAddress?.name){
           setCurrentPage(Pagination.Profile);  
         } else {
         setCurrentPage(Pagination.SignUp);
