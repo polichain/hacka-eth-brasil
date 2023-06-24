@@ -6,13 +6,29 @@ import {
   useTheme,
 } from "@mui/material";
 import { Pagination } from "./types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginPage } from "./pages/login";
+import { SignupPage } from "./pages/signup";
+import { ProfilePage } from "./pages/profile";
+import { EditProfilePage } from "./pages/edit-profile";
+import { useAccount } from "wagmi";
 
 export function App() {
+  const { isConnected } = useAccount();
   const theme = useTheme();
 
   const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
+
+  useEffect(() => {
+    if (isConnected && currentPage === Pagination.Login) {
+      setCurrentPage(Pagination.Profile);
+      // if (true) {
+      //   setCurrentPage(Pagination.Profile);
+      // } else {
+      //   setCurrentPage(Pagination.SignUp);
+      // }
+    }
+  }, [isConnected]);
 
   return (
     <div
@@ -34,6 +50,11 @@ export function App() {
       </AppBar>
 
       {currentPage === Pagination.Login && <LoginPage />}
+      {currentPage === Pagination.SignUp && <SignupPage />}
+      {currentPage === Pagination.Profile && (
+        <ProfilePage setCurrentPage={setCurrentPage} />
+      )}
+      {currentPage === Pagination.EditProfile && <EditProfilePage />}
     </div>
   );
 }
