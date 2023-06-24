@@ -4,23 +4,13 @@ import path from "path";
 import { Contract } from "ethers";
 
 export async function main() {
-    const assetFactory = await ethers.getContractFactory("Asset");
+    const plataformFactory = await ethers.getContractFactory("Plataform");
 
-    const asset = await assetFactory.deploy();
+    const plataform = await plataformFactory.deploy();
 
-    console.log("Asset deployed to:", asset.address);
+    console.log("Plataform deployed to:", plataform.address);
 
-    const supplyChainsFactory = await ethers.getContractFactory("SupplyChains");
-
-    const supplyChains = await supplyChainsFactory.deploy(asset.address);
-
-    console.log("SupplyChains deployed to:", supplyChains.address);
-    
-    const [user] = await ethers.getSigners();
-
-    asset.connect(user).transferOwnership(supplyChains.address);
-
-    saveFrontendFiles(supplyChains, "SupplyChains");
+    saveFrontendFiles(plataform, "Plataform");
 }
 
 function saveFrontendFiles(contract: Contract, name: string) {
@@ -33,7 +23,7 @@ function saveFrontendFiles(contract: Contract, name: string) {
   
 	fs.writeFileSync(
     path.join(contractsDir, "contract-config.json"),
-    JSON.stringify({ address: contract.address, abi: ContractArtifact }, undefined, 2)
+    JSON.stringify({ address: contract.address, abi: ContractArtifact.abi }, undefined, 2)
 	);
 }
 
