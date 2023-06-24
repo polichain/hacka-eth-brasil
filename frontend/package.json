@@ -3,14 +3,14 @@
 	"version": "1.0.0",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/polichain/frontend"
+		"url": "git+https://github.com/polichain/hacka-eth-brazil/frontend"
 	},
 	"author": "Polichain",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/polichain/web3-dapp-template/issues"
+		"url": "https://github.com/polichain/hacka-eth-brazil/issues"
 	},
-	"homepage": "https://github.com/polichain/frontend#readme",
+	"homepage": "https://github.com/polichain/hacka-eth-brazil/frontend#readme",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
