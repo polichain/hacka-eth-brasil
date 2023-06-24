@@ -1,12 +1,20 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
+import { Pagination } from "../../types";
 
-export const EditProfilePage: React.FC = () => {
+interface EditProfilePageProps {
+  setCurrentPage: (page: Pagination) => void;
+}
+
+export const EditProfilePage: React.FC<EditProfilePageProps> = ({
+  setCurrentPage,
+}: EditProfilePageProps) => {
   const form = useForm();
   const { handleSubmit, register } = form;
 
   const handleEditProfileSubmit = (data: any) => {
     console.log(data);
+    setCurrentPage(Pagination.Profile);
   };
 
   return (

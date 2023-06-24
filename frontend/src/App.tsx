@@ -63,7 +63,9 @@ export function App() {
       {currentPage === Pagination.Profile && (
         <ProfilePage setCurrentPage={setCurrentPage} />
       )}
-      {currentPage === Pagination.EditProfile && <EditProfilePage />}
+      {currentPage === Pagination.EditProfile && (
+        <EditProfilePage setCurrentPage={setCurrentPage} />
+      )}
       {currentPage === Pagination.CompaniesList && (
         <CompaniesListPage setCurrentPage={setCurrentPage} />
       )}
