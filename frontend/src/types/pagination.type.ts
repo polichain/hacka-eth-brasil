@@ -10,5 +10,6 @@ export enum Pagination {
   SupplyChainViewer = "SupplyChainViewerPage",
   UserFilter = "UserFilterPage",
   SupplyChainCreate = "SupplyChainCreatePage",
+  SupplyChainSuggestion = "SupplyChainSuggestionPage",
   AssetCreate = "AssetCreatePage",
 }

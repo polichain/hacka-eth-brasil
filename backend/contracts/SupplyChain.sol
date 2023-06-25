@@ -31,11 +31,11 @@ contract SupplyChain is Ownable {
     address[] public members;
     uint256 id;
 
-    constructor(string memory _name, string memory _description, Plataform _plataform, uint256 _id) {
+    constructor(string memory _name, string memory _description, Plataform _plataform, uint256 _id, address createdBy) {
         assetContract = new Asset();
         name = _name;
         description = _description;
-        members.push(msg.sender);
+        members.push(createdBy);
         plataformContract = _plataform;
         id = _id;
     }

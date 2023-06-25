@@ -2,7 +2,7 @@ import { Button, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import contractConfig from "../../contracts/contract-config.json";
 import { Address, useContractWrite } from "wagmi";
-import { Company, Pagination } from "../../types";
+import { Pagination } from "../../types";
 
 interface SupplyChainCreatePageProps {
   setCurrentPage: (page: Pagination) => void;
