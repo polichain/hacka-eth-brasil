@@ -32,6 +32,7 @@ export function App() {
 
   const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
   const [selectedRole, setSelectedRole] = useState<Role>();
+  const [supplyChainInviteID, setSupplyChainInviteID] = useState(0);
 
   // Get contract data
   const getCompanyByAddress: Company | any = useContractRead({
@@ -101,10 +102,10 @@ export function App() {
           <SupplyChainListPage setCurrentPage={setCurrentPage} />
         )}
         {currentPage === Pagination.SupplyChainInvite && (
-          <SupplyChainInvitePage />
+          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID}/>
         )}
         {currentPage === Pagination.SupplyChainInvitesList && (
-          <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} />
+          <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} setSupplyChainInviteID={setSupplyChainInviteID}/>
         )}
 
         {selectedRole && (
