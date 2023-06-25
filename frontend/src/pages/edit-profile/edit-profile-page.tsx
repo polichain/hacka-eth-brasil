@@ -51,23 +51,14 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
     hash: data?.hash,
   });
 
-  if(isSuccess){
-    setCurrentPage(Pagination.Profile)
+  if (isSuccess) {
+    setCurrentPage(Pagination.Profile);
   }
 
   const handleEditProfileSubmit = (data: Company | any) => {
     write?.({
-      args: [
-        data.name,
-        data.description,
-        data.documentNumber,
-        data.location,
-        data.category,
-      ],
+      args: [data.name, data.documentNumber],
     });
-
-    console.log("handleEditProfileSubmit:");
-    console.log(data);
   };
   // End add company
 
@@ -90,27 +81,6 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
               id="documentNumber"
               {...register("documentNumber", { required: true })}
               label="CNPJ da Empresa"
-              sx={{ width: "50%" }}
-            />
-          </div>
-
-          <TextField
-            id="description"
-            {...register("description", { required: true })}
-            label="Descrição"
-          />
-
-          <div className="d-flex gap-3 w-100">
-            <TextField
-              id="location"
-              {...register("location", { required: true })}
-              label="Endereço da Empresa"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              id="category"
-              {...register("category", { required: true })}
-              label="Categoria da Empresa"
               sx={{ width: "50%" }}
             />
           </div>

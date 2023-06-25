@@ -1,91 +1,13 @@
 {
-  "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
   "abi": [
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "_assetContract",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "address",
-              "name": "from",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "to",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "timestamp",
-              "type": "uint256"
-            }
-          ],
-          "indexed": false,
-          "internalType": "struct Asset.TransferData",
-          "name": "_transfer",
-          "type": "tuple"
-        },
-        {
-          "indexed": true,
           "internalType": "uint256",
-          "name": "_assetId",
+          "name": "supplyChainId",
           "type": "uint256"
-        }
-      ],
-      "name": "AcceptAsset",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "address",
-              "name": "from",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "to",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "timestamp",
-              "type": "uint256"
-            }
-          ],
-          "indexed": false,
-          "internalType": "struct Asset.TransferData",
-          "name": "_transfer",
-          "type": "tuple"
         },
-        {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "_assetId",
-          "type": "uint256"
-        }
-      ],
-      "name": "OfferAsset",
-      "type": "event"
-    },
-    {
-      "inputs": [
         {
           "internalType": "uint256",
           "name": "assetId",
@@ -106,41 +28,13 @@
         },
         {
           "internalType": "string",
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
           "name": "documentNumber",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "category",
           "type": "string"
         }
       ],
       "name": "addCompany",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "assetContract",
-      "outputs": [
-        {
-          "internalType": "contract Asset",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -160,22 +54,7 @@
         },
         {
           "internalType": "string",
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
           "name": "documentNumber",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "category",
           "type": "string"
         }
       ],
@@ -185,8 +64,13 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        },
+        {
           "internalType": "string",
-          "name": "description",
+          "name": "_description",
           "type": "string"
         }
       ],
@@ -197,6 +81,42 @@
     },
     {
       "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "name": "createSupplyChain",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        }
+      ],
+      "name": "enterSupplyChain",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        },
         {
           "internalType": "uint256",
           "name": "assetId",
@@ -223,7 +143,7 @@
               "type": "uint256"
             }
           ],
-          "internalType": "struct Asset.TransferData[]",
+          "internalType": "struct Utils.TransferData[]",
           "name": "",
           "type": "tuple[]"
         }
@@ -250,26 +170,21 @@
             },
             {
               "internalType": "string",
-              "name": "description",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
               "name": "documentNumber",
               "type": "string"
             },
             {
-              "internalType": "string",
-              "name": "location",
-              "type": "string"
+              "internalType": "uint256[]",
+              "name": "supplyChainsParticipant",
+              "type": "uint256[]"
             },
             {
-              "internalType": "string",
-              "name": "category",
-              "type": "string"
+              "internalType": "uint256[]",
+              "name": "invitesToSupplyChain",
+              "type": "uint256[]"
             }
           ],
-          "internalType": "struct SupplyChains.Company",
+          "internalType": "struct Utils.Company",
           "name": "",
           "type": "tuple"
         }
@@ -278,7 +193,126 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getInvites",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSuggestions",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum Utils.SuggestionType",
+              "name": "suggestionType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes",
+              "name": "encodedCalldata",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bool",
+              "name": "isOpen",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "sucedded",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "voteCount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Utils.Suggestion[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSupplyChain",
+      "outputs": [
+        {
+          "internalType": "contract SupplyChain",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getSupplyChainsParticipant",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "enum Utils.SuggestionType",
+          "name": "suggestionType",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes",
+          "name": "parameter",
+          "type": "bytes"
+        }
+      ],
+      "name": "makeSuggestion",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        },
         {
           "internalType": "address",
           "name": "to",
@@ -298,32 +332,90 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        }
+      ],
+      "name": "quitSupplyChain",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "member",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_supplyChainId",
+          "type": "uint256"
+        }
+      ],
+      "name": "revokeSupplyChain",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "supplyChains",
+      "outputs": [
+        {
+          "internalType": "contract SupplyChain",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "string",
           "name": "name",
           "type": "string"
         },
         {
           "internalType": "string",
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
           "name": "documentNumber",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "category",
           "type": "string"
         }
       ],
       "name": "updateCompany",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supplyChainId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "suggestionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "vote",
+          "type": "bool"
+        }
+      ],
+      "name": "voteForSuggestion",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

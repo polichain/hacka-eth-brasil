@@ -2,27 +2,28 @@ import { Button, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import contractConfig from "../../contracts/contract-config.json";
 import { Address, useContractWrite } from "wagmi";
-import { Pagination } from "../../types";
+import { Company, Pagination } from "../../types";
 
-interface SupplyChainCreatePageProps {
+interface AssetCreatePageProps {
   setCurrentPage: (page: Pagination) => void;
+  supplyChainId: number;
 }
 
-export const SupplyChainCreatePage: React.FC<SupplyChainCreatePageProps> = ({
-  setCurrentPage,
-}: SupplyChainCreatePageProps) => {
+export const AssetCreatePage: React.FC<AssetCreatePageProps> = ({
+  setCurrentPage, supplyChainId
+}: AssetCreatePageProps) => {
   const form = useForm();
   const { handleSubmit, register } = form;
 
-  const { write, data, error, isLoading, isError } = useContractWrite({
+  const { write } = useContractWrite({
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
-    functionName: "createSupplyChain",
+    functionName: "createAsset",
   });
 
   const handleSupplyChainSubmit = (data: any) => {
     write?.({
-      args: [data.name, data.description],
+      args: [supplyChainId, data.description],
     });
     setCurrentPage(Pagination.SupplyChainList);
   };
@@ -32,29 +33,23 @@ export const SupplyChainCreatePage: React.FC<SupplyChainCreatePageProps> = ({
       <form onSubmit={handleSubmit((data) => handleSupplyChainSubmit(data))}>
         <div className="d-flex flex-column align-items-center px-3 pt-3 gap-3">
           <Typography variant="h6">
-            Complete o cadastro de sua cadeia de suprimentos:
+            Escreva a descrição deste Asset:
           </Typography>
 
-          <TextField
-            id="name"
-            {...register("name", { required: true })}
-            label="Nome da Cadeia de Suprimentos"
-            sx={{ width: "50%" }}
-          />
-          <TextField
+        <TextField
             id="description"
             {...register("description", { required: true })}
             label="Descrição"
-            sx={{ width: "50%" }}
-          />
+            sx={{ width: "100%" }}
+        />
 
-          <div className="d-flex flex-column align-items-center w-30">
-            <Button variant="outlined" type="submit">
-              <Typography variant="subtitle2" fontWeight="600">
-                Criar cadeia
-              </Typography>
-            </Button>
-          </div>
+        <div className="d-flex flex-column align-items-center w-30">
+        <Button variant="outlined" type="submit">
+            <Typography variant="subtitle2" fontWeight="600">
+            Criar Asset
+            </Typography>
+        </Button>
+        </div>
         </div>
       </form>
     </FormProvider>

@@ -13,9 +13,8 @@ import { LoginPage } from "./pages/login";
 import { SignupPage } from "./pages/signup";
 import { ProfilePage } from "./pages/profile";
 import { EditProfilePage } from "./pages/edit-profile";
-import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
+import { Address, useAccount, useContractRead } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { CompaniesListPage } from "./pages/companies-list";
 import { UserFilterPage } from "./pages/user-filter";
 import { RoleSelectorPage } from "./pages/role-selector";
 import { SupplyChainListPage } from "./pages/supply-chain-list";
@@ -27,13 +26,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import LinkIcon from "@mui/icons-material/Link";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import contractConfig from "./contracts/contract-config.json";
+import { AssetCreatePage } from "./pages/asset-create";
+import { SupplyChainViewerPage } from "./pages/supply-chain-viewer";
 
 export function App() {
   const { isConnected, address } = useAccount();
   const theme = useTheme();
 
-  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.SupplyChainSuggestion);
+  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
   const [selectedRole, setSelectedRole] = useState<Role>();
+  const [supplyChainInviteID, setSupplyChainInviteID] = useState(0);
+  const [supplyChainId, setSupplyChainId] = useState(0);
 
   // Get contract data
   const getCompanyByAddress: Company | any = useContractRead({
@@ -57,6 +60,16 @@ export function App() {
       }
     }
   }, [isConnected]);
+
+  useEffect(() => {
+    if (!selectedRole) {
+      if (getCompanyByAddress?.name) {
+        setSelectedRole(Role.company);
+      } else {
+        setCurrentPage(Pagination.RoleSelector);
+      }
+    }
+  }, [selectedRole]);
 
   return (
     <div
@@ -96,17 +109,23 @@ export function App() {
         {currentPage === Pagination.EditProfile && (
           <EditProfilePage setCurrentPage={setCurrentPage} />
         )}
-        {currentPage === Pagination.CompaniesList && (
-          <CompaniesListPage setCurrentPage={setCurrentPage} />
-        )}
         {currentPage === Pagination.SupplyChainList && (
-          <SupplyChainListPage setCurrentPage={setCurrentPage} />
+          <SupplyChainListPage
+            setCurrentPage={setCurrentPage}
+            setSupplyChainId={setSupplyChainId}
+          />
+        )}
+        {currentPage === Pagination.SupplyChainViewer && (
+          <SupplyChainViewerPage setCurrentPage={setCurrentPage} />
         )}
         {currentPage === Pagination.SupplyChainInvite && (
-          <SupplyChainInvitePage />
+          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
         )}
         {currentPage === Pagination.SupplyChainInvitesList && (
-          <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} />
+          <SupplyChainInvitesListPage
+            setCurrentPage={setCurrentPage}
+            setSupplyChainInviteID={setSupplyChainInviteID}
+          />
         )}
         {currentPage === Pagination.SupplyChainCreate && (
           <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
@@ -114,16 +133,22 @@ export function App() {
         {currentPage === Pagination.SupplyChainSuggestion && (
           <SupplyChainSuggestionPage setCurrentPage={setCurrentPage} />
         )}
+        {currentPage === Pagination.AssetCreate && (
+          <AssetCreatePage
+            setCurrentPage={setCurrentPage}
+            supplyChainId={supplyChainId}
+          />
+        )}
 
-        {selectedRole && (
+        {selectedRole && isConnected && (
           <BottomNavigation
             sx={{
               backgroundColor: "#212121",
               width: "100%",
               position: "absolute",
               bottom: 0,
-              paddingTop: "32px",
-              paddingBottom: "32px",
+              paddingTop: "50px",
+              paddingBottom: "50px",
             }}
             value={currentPage}
             onChange={(event, value) => setCurrentPage(value)}

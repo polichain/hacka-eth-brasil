@@ -1,30 +1,24 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { Company, Pagination } from "../../types";
-
-const MOCK_COMPANIES: Company[] = [
-  {
-    name: "Mocks S.A.",
-    cnpj: "1234567",
-    category: "Mocks em geral",
-    description: "A empresa se trata de um mock...",
-    address: "R. Valson Lopes, 70 (132B) - São Paulo/SP",
-  },
-  {
-    name: "M&M's dados",
-    cnpj: "7654321",
-    category: "Doces de mock",
-    description: "Bla bla bla...",
-    address: "R. Azevedo Castro, 169 (13) - São Paulo/SP",
-  },
-];
+import { Address, useContractRead } from "wagmi";
+import contractConfig from "../../contracts/contract-config.json";
 
 interface SupplyChainListPageProps {
   setCurrentPage: (page: Pagination) => void;
+  setSupplyChainId: (id: number) => void;
 }
 
 export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
-  setCurrentPage,
+  setCurrentPage, setSupplyChainId
 }: SupplyChainListPageProps) => {
+  const supplyChainId_list: number[] =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getSupplyChainsParticipant",
+      watch: true,
+    }).data as number[]) ?? [];
+
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="d-flex justify-content-center gap-3 p-3">
@@ -54,31 +48,23 @@ export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
       <Typography variant="h5" className="py-3">
         Lista de cadeias de suprimentos
       </Typography>
-      {MOCK_COMPANIES.length ? (
+      {supplyChainId_list.length ? (
         <Stack spacing={1}>
-          {MOCK_COMPANIES.map((company) => {
+          {supplyChainId_list.map((supplyChainId) => {
             return (
               <div
                 className="d-flex justify-content-between align-items-center gap-5 p-2 bg-info rounded"
-                key={company.cnpj}
+                key={supplyChainId}
                 role="button"
-                onClick={() => setCurrentPage(Pagination.Profile)}
-              >
+                onClick={() => {
+                  setSupplyChainId(supplyChainId)
+                  setCurrentPage(Pagination.SupplyChainViewer)
+                }}>
                 <div className="d-flex flex-column">
                   <Typography variant="h6" color="ButtonText" fontWeight="600">
-                    {company.name}
-                  </Typography>
-                  <Typography variant="subtitle2" color="ButtonText">
-                    {company.category}
+                    SupplyChain - {String(supplyChainId)}
                   </Typography>
                 </div>
-                <Typography
-                  variant="subtitle1"
-                  color="ButtonText"
-                  fontWeight="500"
-                >
-                  {company.address}
-                </Typography>
               </div>
             );
           })}
