@@ -9,7 +9,6 @@ import {Utils} from './Utils.sol';
 contract Plataform {
     using Counters for Counters.Counter;
 
-
     mapping (address => Utils.Company) public companies;
     mapping (uint256 => SupplyChain) public supplyChains;
     Counters.Counter private _supplyChainsIdCounter;
@@ -38,7 +37,7 @@ contract Plataform {
     function createSupplyChain(string memory name, string memory description) public {
         uint256 _supplyChainId = _supplyChainsIdCounter.current();
         _supplyChainsIdCounter.increment();
-        SupplyChain newSupplyChain = new SupplyChain(name, description, this, _supplyChainId);
+        SupplyChain newSupplyChain = new SupplyChain(name, description, this, _supplyChainId, msg.sender);
         supplyChains[_supplyChainId] = newSupplyChain;
         companies[msg.sender].supplyChainsParticipant.push(_supplyChainId);
     }
