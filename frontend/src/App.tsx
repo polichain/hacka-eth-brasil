@@ -13,9 +13,8 @@ import { LoginPage } from "./pages/login";
 import { SignupPage } from "./pages/signup";
 import { ProfilePage } from "./pages/profile";
 import { EditProfilePage } from "./pages/edit-profile";
-import { Address, useAccount, useContractRead, useContractWrite } from "wagmi";
+import { Address, useAccount, useContractRead } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { CompaniesListPage } from "./pages/companies-list";
 import { UserFilterPage } from "./pages/user-filter";
 import { RoleSelectorPage } from "./pages/role-selector";
 import { SupplyChainListPage } from "./pages/supply-chain-list";
@@ -61,6 +60,16 @@ export function App() {
     }
   }, [isConnected]);
 
+  useEffect(() => {
+    if (!selectedRole) {
+      if (getCompanyByAddress?.name) {
+        setSelectedRole(Role.company);
+      } else {
+        setCurrentPage(Pagination.RoleSelector);
+      }
+    }
+  }, [selectedRole]);
+
   return (
     <div
       style={{
@@ -99,14 +108,14 @@ export function App() {
         {currentPage === Pagination.EditProfile && (
           <EditProfilePage setCurrentPage={setCurrentPage} />
         )}
-        {currentPage === Pagination.CompaniesList && (
-          <CompaniesListPage setCurrentPage={setCurrentPage} />
-        )}
         {currentPage === Pagination.SupplyChainList && (
-          <SupplyChainListPage setCurrentPage={setCurrentPage} setSupplyChainId={setSupplyChainId} />
+          <SupplyChainListPage
+            setCurrentPage={setCurrentPage}
+            setSupplyChainId={setSupplyChainId}
+          />
         )}
         {currentPage === Pagination.SupplyChainViewer && (
-          <SupplyChainViewerPage setCurrentPage={setCurrentPage}/>
+          <SupplyChainViewerPage setCurrentPage={setCurrentPage} />
         )}
         {currentPage === Pagination.SupplyChainInvite && (
           <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
@@ -121,7 +130,10 @@ export function App() {
           <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
         )}
         {currentPage === Pagination.AssetCreate && (
-          <AssetCreatePage setCurrentPage={setCurrentPage} supplyChainId={supplyChainId}/>
+          <AssetCreatePage
+            setCurrentPage={setCurrentPage}
+            supplyChainId={supplyChainId}
+          />
         )}
 
         {selectedRole && isConnected && (
@@ -131,8 +143,8 @@ export function App() {
               width: "100%",
               position: "absolute",
               bottom: 0,
-              paddingTop: "32px",
-              paddingBottom: "32px",
+              paddingTop: "50px",
+              paddingBottom: "50px",
             }}
             value={currentPage}
             onChange={(event, value) => setCurrentPage(value)}

@@ -4,12 +4,11 @@ export enum Pagination {
   SignUp = "SignUpPage",
   Profile = "ProfilePage",
   EditProfile = "EditProfilePage",
-  CompaniesList = "CompaniesListPage",
   SupplyChainInvite = "SupplyChainInvitePage",
   SupplyChainInvitesList = "SupplyChainInvitesListPage",
   SupplyChainList = "SupplyChainListPage",
   SupplyChainViewer = "SupplyChainViewerPage",
   UserFilter = "UserFilterPage",
   SupplyChainCreate = "SupplyChainCreatePage",
-  AssetCreate = "AssetCreate",
+  AssetCreate = "AssetCreatePage",
 }

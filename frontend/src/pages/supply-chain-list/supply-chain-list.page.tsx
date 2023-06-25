@@ -16,6 +16,7 @@ export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
       address: contractConfig.address as Address,
       abi: contractConfig.abi,
       functionName: "getSupplyChainsParticipant",
+      watch: true,
     }).data as number[]) ?? [];
 
   return (
@@ -57,11 +58,11 @@ export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
                 role="button"
                 onClick={() => {
                   setSupplyChainId(supplyChainId)
-                  setCurrentPage(Pagination.Profile)
+                  setCurrentPage(Pagination.SupplyChainViewer)
                 }}>
                 <div className="d-flex flex-column">
                   <Typography variant="h6" color="ButtonText" fontWeight="600">
-                    SupplyChain - {supplyChainId}
+                    SupplyChain - {String(supplyChainId)}
                   </Typography>
                 </div>
               </div>
