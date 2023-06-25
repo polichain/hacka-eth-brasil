@@ -20,7 +20,7 @@ The frontend is a ViteJs App using wagmi + rainbowkit. Wagmi uses an Alchemy pro
 
 Backend part includes four contracts, with deploy.js file pre-configured.
 Hardhat is configured to easily deploy localy (on a hardhat node), in the Sapolia Testnet, and, of course, Ethereum Mainnet.
-We recommend you to test on Hardhat, but it is also deployed on Sepolia on address: ```0xAddd106316E313E06A50656d0BF5015849bdb8BC```
+We recommend you to test on Hardhat, but it is also deployed on Sepolia at address: ```0xAddd106316E313E06A50656d0BF5015849bdb8BC```
 
 > Obs.: When deployed the contracts Address and ABI will be updated in frontend files, so if you want to test front-locally pointing to Sepolia remenber to change addressW
 
