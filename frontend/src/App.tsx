@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { LoginPage } from "./pages/login";
 import { SignupPage } from "./pages/signup";
 import { ProfilePage } from "./pages/profile";
-import { EditProfilePage } from "./pages/edit-profile";
 import { Address, useAccount, useContractRead } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { UserFilterPage } from "./pages/user-filter";
@@ -100,40 +99,44 @@ export function App() {
               setSelectedRole={setSelectedRole}
             />
           )}
+
           {currentPage === Pagination.SignUp && (
             <SignupPage setCurrentPage={setCurrentPage} />
           )}
+
           {currentPage === Pagination.UserFilter && <UserFilterPage />}
-          {currentPage === Pagination.Profile && (
-            <ProfilePage setCurrentPage={setCurrentPage} />
-          )}
-          {currentPage === Pagination.EditProfile && (
-            <EditProfilePage setCurrentPage={setCurrentPage} />
-          )}
+          {currentPage === Pagination.Profile && <ProfilePage />}
+
           {currentPage === Pagination.SupplyChainList && (
             <SupplyChainListPage
               setCurrentPage={setCurrentPage}
               setSupplyChainId={setSupplyChainId}
             />
           )}
+
           {currentPage === Pagination.SupplyChainViewer && (
             <SupplyChainViewerPage setCurrentPage={setCurrentPage} />
           )}
+
           {currentPage === Pagination.SupplyChainInvite && (
             <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
           )}
+
           {currentPage === Pagination.SupplyChainInvitesList && (
             <SupplyChainInvitesListPage
               setCurrentPage={setCurrentPage}
               setSupplyChainInviteID={setSupplyChainInviteID}
             />
           )}
+
           {currentPage === Pagination.SupplyChainCreate && (
             <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
           )}
+
           {currentPage === Pagination.SupplyChainSuggestion && (
             <SupplyChainSuggestionPage setCurrentPage={setCurrentPage} />
           )}
+
           {currentPage === Pagination.AssetCreate && (
             <AssetCreatePage
               setCurrentPage={setCurrentPage}
