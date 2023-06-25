@@ -1,10 +1,6 @@
-# Backend
+# ChainLinker Backend
 
-This is the backend, here you can develop, test and deploy you smart contracts.
-
-> Note that this file is not going to explain or teach anything related to Hardhat, it only explains how to use this preconfigured model
-
-> Obs.: Every time we give you a command, consider that you gotta run it in a terminal which is **inside** this /backend directory. If any command needs to be runned in a diferent folder it'll be **explicitly** said.
+Here is where the backend is located. We recommend to run locally, but it is deployed on Sepolia at address: ```0xAddd106316E313E06A50656d0BF5015849bdb8BC```
 
 ## First steps
 

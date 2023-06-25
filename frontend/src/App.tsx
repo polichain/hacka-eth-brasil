@@ -138,7 +138,7 @@ export function App() {
           )}
 
           {currentPage === Pagination.SupplyChainSuggestion && (
-            <SupplyChainSuggestionPage setCurrentPage={setCurrentPage} />
+            <SupplyChainSuggestionPage setCurrentPage={setCurrentPage} supplyChainId={supplyChainId}/>
           )}
 
           {currentPage === Pagination.AssetCreate && (

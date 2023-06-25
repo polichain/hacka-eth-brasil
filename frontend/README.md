@@ -1,10 +1,4 @@
-# Frontend
-
-This is the front, here you can develop, test and deploy you website with connection to chains and smart contracts already configured.
-
-> Note that this file is not going to explain or teach anything related to Vite, wagmi or any tools used, it only explains how to use this preconfigured model
-
-> Obs.: Every time we give you a command, consider that you gotta run it in a terminal which is **inside** this /frontend directory. If any command needs to be runned in a diferent folder it'll be **explicitly** said.
+# ChainLinker Frontend 
 
 ## First steps
 
@@ -39,8 +33,6 @@ To build just run ```npm run dev```, and for deploy we highly recommend using Ve
 ### Wagmi + RainbowKit
 
 This modules are responsible for connecting with your wallet (RainbowKit) and interacting with smart contracts by using hooks (Wagmi). Feel free to look into their documentations for more detalied information.
-
-This template was made after the Wagmi template, so you can see inside the components folder a ton of examples on how to use the hooks for many different use cases.
 
 ### MaterialUI
 
