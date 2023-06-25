@@ -4,11 +4,6 @@ import contractConfig from "../../contracts/contract-config.json";
 import { Address, useAccount, useContractRead } from "wagmi";
 import { useEffect, useState } from "react";
 
-const MOCK_PROFILE: Company = {
-  name: "Teste mock",
-  documentNumber: "123456789",
-};
-
 interface ProfilePageProps {
   setCurrentPage: (page: Pagination) => void;
 }

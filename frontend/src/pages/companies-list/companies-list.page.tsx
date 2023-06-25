@@ -4,17 +4,11 @@ import { Company, Pagination } from "../../types";
 const MOCK_COMPANIES: Company[] = [
   {
     name: "Mocks S.A.",
-    cnpj: "1234567",
-    category: "Mocks em geral",
-    description: "A empresa se trata de um mock...",
-    address: "R. Valson Lopes, 70 (132B) - São Paulo/SP",
+    documentNumber: "1234567"
   },
   {
     name: "M&M's dados",
-    cnpj: "7654321",
-    category: "Doces de mock",
-    description: "Bla bla bla...",
-    address: "R. Azevedo Castro, 169 (13) - São Paulo/SP",
+    documentNumber: "7654321"
   },
 ];
 
@@ -35,7 +29,7 @@ export const CompaniesListPage: React.FC<CompaniesListPageProps> = ({
           return (
             <div
               className="d-flex justify-content-between align-items-center gap-5 p-2 bg-info rounded"
-              key={company.cnpj}
+              key={company.documentNumber}
               role="button"
               onClick={() => setCurrentPage(Pagination.Profile)}
             >
@@ -43,17 +37,7 @@ export const CompaniesListPage: React.FC<CompaniesListPageProps> = ({
                 <Typography variant="h6" color="ButtonText" fontWeight="600">
                   {company.name}
                 </Typography>
-                <Typography variant="subtitle2" color="ButtonText">
-                  {company.category}
-                </Typography>
               </div>
-              <Typography
-                variant="subtitle1"
-                color="ButtonText"
-                fontWeight="500"
-              >
-                {company.address}
-              </Typography>
             </div>
           );
         })}
