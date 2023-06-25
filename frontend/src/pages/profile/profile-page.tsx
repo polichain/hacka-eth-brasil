@@ -25,7 +25,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     if (data_edit) {
       setFormData({
         name: data_edit.name,
-        documentNumber: data_edit.documentNumber
+        documentNumber: data_edit.documentNumber,
       });
     }
   }, []);

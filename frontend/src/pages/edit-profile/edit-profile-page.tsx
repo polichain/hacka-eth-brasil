@@ -51,20 +51,14 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
     hash: data?.hash,
   });
 
-  if(isSuccess){
-    setCurrentPage(Pagination.Profile)
+  if (isSuccess) {
+    setCurrentPage(Pagination.Profile);
   }
 
   const handleEditProfileSubmit = (data: Company | any) => {
     write?.({
-      args: [
-        data.name,
-        data.documentNumber,
-      ],
+      args: [data.name, data.documentNumber],
     });
-
-    console.log("handleEditProfileSubmit:");
-    console.log(data);
   };
   // End add company
 

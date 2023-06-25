@@ -11,11 +11,12 @@ interface SupplyChainListPageProps {
 export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
   setCurrentPage, setSupplyChainId
 }: SupplyChainListPageProps) => {
-  const supplyChainId_list: number[] = useContractRead({
-    address: contractConfig.address as Address,
-    abi: contractConfig.abi,
-    functionName: "getSupplyChainsParticipant",
-  }).data as number[] ?? [];
+  const supplyChainId_list: number[] =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getSupplyChainsParticipant",
+    }).data as number[]) ?? [];
 
   return (
     <div className="d-flex flex-column align-items-center">

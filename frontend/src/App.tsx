@@ -27,6 +27,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import contractConfig from "./contracts/contract-config.json";
 import { AssetCreatePage } from "./pages/asset-create";
+import { SupplyChainViewerPage } from "./pages/supply-chain-viewer";
 
 export function App() {
   const { isConnected, address } = useAccount();
@@ -104,11 +105,17 @@ export function App() {
         {currentPage === Pagination.SupplyChainList && (
           <SupplyChainListPage setCurrentPage={setCurrentPage} setSupplyChainId={setSupplyChainId} />
         )}
+        {currentPage === Pagination.SupplyChainViewer && (
+          <SupplyChainViewerPage />
+        )}
         {currentPage === Pagination.SupplyChainInvite && (
-          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID}/>
+          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
         )}
         {currentPage === Pagination.SupplyChainInvitesList && (
-          <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} setSupplyChainInviteID={setSupplyChainInviteID}/>
+          <SupplyChainInvitesListPage
+            setCurrentPage={setCurrentPage}
+            setSupplyChainInviteID={setSupplyChainInviteID}
+          />
         )}
         {currentPage === Pagination.SupplyChainCreate && (
           <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
@@ -117,7 +124,7 @@ export function App() {
           <AssetCreatePage setCurrentPage={setCurrentPage} supplyChainId={supplyChainId}/>
         )}
 
-        {selectedRole && (
+        {selectedRole && isConnected && (
           <BottomNavigation
             sx={{
               backgroundColor: "#212121",
