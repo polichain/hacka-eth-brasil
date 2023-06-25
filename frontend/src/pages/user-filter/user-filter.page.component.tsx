@@ -1,12 +1,17 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchType } from "./search-type.enum";
+import { Address, useContractRead } from "wagmi";
+import contractConfig from "../../contracts/contract-config.json";
+import { Company } from "../../types";
 
 export const UserFilterPage: React.FC = () => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.company);
-
+  const [data, setData] = useState<any>()
+  const [companyCallState, setCompanyCallState] = useState<Company>()
+  const [supplyChainState, setSupplyChainState] = useState<string>()
   const buttonVariant = (buttonFunction: SearchType) => {
     return buttonFunction === searchType ? "contained" : "outlined";
   };
@@ -14,11 +19,63 @@ export const UserFilterPage: React.FC = () => {
   const form = useForm();
   const { handleSubmit, register } = form;
 
+  const null_company: Company = {
+    name: "",
+    documentNumber: "",
+  }
+
+  const companyCall = useContractRead({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "getCompany",
+    args: [data?.companyAddress]
+  }).data as Company ?? null_company;
+
+  const supplyChain = useContractRead({
+    address: contractConfig.address as Address,
+    abi: contractConfig.abi,
+    functionName: "getSupplyChain",
+    args: [data?.supplyChainID]
+  }).data as string ?? "";
+
+
+  useEffect(() => {
+    // let ignore = false;
+
+    const fetchData = async (data: any) => {
+      const companyCall = useContractRead({
+        address: contractConfig.address as Address,
+        abi: contractConfig.abi,
+        functionName: "getCompany",
+        args: [data?.companyAddress]
+      }).data as Company ?? null_company;
+
+      const supplyChain = useContractRead({
+        address: contractConfig.address as Address,
+        abi: contractConfig.abi,
+        functionName: "getSupplyChain",
+        args: [data?.supplyChainID]
+      }).data as string ?? "";
+
+      setCompanyCallState(companyCall)
+      setSupplyChainState(supplyChain)
+    }
+
+    // async function fetchData() {
+    //   const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query);
+    //   if (!ignore) setData(result.data);
+    // }
+    fetchData(data);
+  }, []);
+
   const handleSearchSubmit = (data: any) => {
+
+    setData(data)
+    console.log(data)
     if (searchType === SearchType.company) {
-      // Integração para pesquisar empresa
+
     } else if (searchType === SearchType.supplyChain) {
-      // Integração para pesquisar cadeia de suprimentos
+      // TODO - Exibir resultado
     } else {
       // Integração para pesquisar produto
     }
@@ -46,15 +103,6 @@ export const UserFilterPage: React.FC = () => {
                 Pesquisar cadeia de suprimentos
               </Typography>
             </Button>
-
-            <Button
-              variant={buttonVariant(SearchType.product)}
-              onClick={() => setSearchType(SearchType.product)}
-            >
-              <Typography variant="subtitle2" fontWeight="600">
-                Pesquisar produto
-              </Typography>
-            </Button>
           </div>
 
           {searchType === SearchType.company && (
@@ -62,15 +110,6 @@ export const UserFilterPage: React.FC = () => {
               id="companyAddress"
               {...register("companyAddress", { required: true })}
               label="Carteira da empresa"
-              sx={{ width: "50%" }}
-            />
-          )}
-
-          {searchType === SearchType.product && (
-            <TextField
-              id="productID"
-              {...register("productID", { required: true })}
-              label="ID do produto"
               sx={{ width: "50%" }}
             />
           )}
@@ -89,6 +128,15 @@ export const UserFilterPage: React.FC = () => {
               Pesquisar
             </Typography>
           </Button>
+          <div>
+            {searchType === SearchType.supplyChain && <p>Supply chain: {supplyChain}</p>}
+            {searchType === SearchType.company &&
+              <>
+                <p>Company call name: {companyCall.name}</p>
+                <p>Company call document: {companyCall.documentNumber}</p>
+              </>
+            }
+          </div>
         </div>
       </form>
     </FormProvider>
