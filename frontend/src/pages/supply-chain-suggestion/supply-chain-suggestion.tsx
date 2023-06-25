@@ -1,6 +1,12 @@
-import * as React from 'react';
-import { MenuItem, FormControl, Button, TextField, Typography } from "@mui/material";
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import * as React from "react";
+import {
+  MenuItem,
+  FormControl,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useForm } from "react-hook-form";
 import contractConfig from "../../contracts/contract-config.json";
 import { Address, useContractWrite } from "wagmi";
@@ -10,31 +16,33 @@ interface SupplyChainSuggestionPageProps {
   setCurrentPage: (page: Pagination) => void;
 }
 
-export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps> = ({
-  setCurrentPage,
-}: SupplyChainSuggestionPageProps) => {
+export const SupplyChainSuggestionPage: React.FC<
+  SupplyChainSuggestionPageProps
+> = ({ setCurrentPage }: SupplyChainSuggestionPageProps) => {
   const form = useForm();
   const { handleSubmit, register } = form;
-  const [suggestion, setSuggestion] = React.useState('1');
-  const [suggestionLabel, setSuggestionLabel] = React.useState('Digite uma sugestão para alterar o nome:');
+  const [suggestion, setSuggestion] = React.useState("1");
+  const [suggestionLabel, setSuggestionLabel] = React.useState(
+    "Digite uma sugestão para alterar o nome:"
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     setSuggestion(event.target.value as string);
     switch (+event.target.value) {
       case 1:
-        setSuggestionLabel('Digite uma sugestão para alterar o nome:');
+        setSuggestionLabel("Digite uma sugestão para alterar o nome:");
         break;
       case 2:
-        setSuggestionLabel('Digite uma sugestão para alterar a descrição:');
+        setSuggestionLabel("Digite uma sugestão para alterar a descrição:");
         break;
       case 3:
-        setSuggestionLabel('Digite uma sugestão para adicionar um membro:');
+        setSuggestionLabel("Digite uma sugestão para adicionar um membro:");
         break;
       case 4:
-        setSuggestionLabel('Digite uma sugestão para remover um membro:');
+        setSuggestionLabel("Digite uma sugestão para remover um membro:");
         break;
       default:
-        setSuggestionLabel('Digite uma sugestão para a cadeia de suprimentos:');
+        setSuggestionLabel("Digite uma sugestão para a cadeia de suprimentos:");
     }
   };
 
@@ -53,12 +61,13 @@ export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps>
 
   return (
     <FormControl fullWidth>
-      <form onSubmit={handleSubmit((data) => handleSupplyChainSuggestionSubmit(data))}>
+      <form
+        onSubmit={handleSubmit((data) =>
+          handleSupplyChainSuggestionSubmit(data)
+        )}
+      >
         <div className="d-flex flex-column align-items-center px-3 pt-3 gap-3">
-
-          <Typography variant="h6">
-            Selecione um tipo de sugestão
-          </Typography>
+          <Typography variant="h6">Selecione um tipo de sugestão</Typography>
 
           <Select
             labelId="demo-simple-select-label"
@@ -70,12 +79,9 @@ export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps>
             <MenuItem value={2}>Alterar Descrição </MenuItem>
             <MenuItem value={3}>Adicionar Membro</MenuItem>
             <MenuItem value={4}>Remover Membro</MenuItem>
-
           </Select>
 
-          <Typography variant="h6">
-            {suggestionLabel}
-          </Typography>
+          <Typography variant="h6">{suggestionLabel}</Typography>
 
           <TextField
             id="suggestion"

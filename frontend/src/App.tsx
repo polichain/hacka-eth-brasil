@@ -115,7 +115,11 @@ export function App() {
           )}
 
           {currentPage === Pagination.SupplyChainViewer && (
-            <SupplyChainViewerPage setCurrentPage={setCurrentPage} />
+            <SupplyChainViewerPage
+              supplyChainId={supplyChainId}
+              setCurrentPage={setCurrentPage}
+              role={selectedRole ?? Role.user}
+            />
           )}
 
           {currentPage === Pagination.SupplyChainInvite && (
