@@ -32,9 +32,7 @@ export function App() {
   const { isConnected, address } = useAccount();
   const theme = useTheme();
 
-  const [currentPage, setCurrentPage] = useState<Pagination>(
-    Pagination.SupplyChainViewer
-  );
+  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
   const [selectedRole, setSelectedRole] = useState<Role>();
   const [supplyChainInviteID, setSupplyChainInviteID] = useState(0);
 
@@ -110,16 +108,19 @@ export function App() {
           <SupplyChainViewerPage />
         )}
         {currentPage === Pagination.SupplyChainInvite && (
-          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID}/>
+          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
         )}
         {currentPage === Pagination.SupplyChainInvitesList && (
-          <SupplyChainInvitesListPage setCurrentPage={setCurrentPage} setSupplyChainInviteID={setSupplyChainInviteID}/>
+          <SupplyChainInvitesListPage
+            setCurrentPage={setCurrentPage}
+            setSupplyChainInviteID={setSupplyChainInviteID}
+          />
         )}
         {currentPage === Pagination.SupplyChainCreate && (
           <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
         )}
 
-        {selectedRole && (
+        {selectedRole && isConnected && (
           <BottomNavigation
             sx={{
               backgroundColor: "#212121",

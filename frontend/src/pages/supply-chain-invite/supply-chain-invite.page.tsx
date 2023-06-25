@@ -7,12 +7,14 @@ interface SupplyChainInvitePageProps {
   supplyChainInviteID: number;
 }
 
-export const SupplyChainInvitePage: React.FC<SupplyChainInvitePageProps> = ({ supplyChainInviteID }: SupplyChainInvitePageProps) => {
+export const SupplyChainInvitePage: React.FC<SupplyChainInvitePageProps> = ({
+  supplyChainInviteID,
+}: SupplyChainInvitePageProps) => {
   const { write, data, error, isLoading, isError } = useContractWrite({
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
     functionName: "enterSupplyChain",
-    args: [supplyChainInviteID]
+    args: [supplyChainInviteID],
   });
 
   function setCurrentPage(SupplyChainInvite: any) {

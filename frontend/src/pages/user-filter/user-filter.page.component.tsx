@@ -9,9 +9,9 @@ import { Company } from "../../types";
 
 export const UserFilterPage: React.FC = () => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.company);
-  const [data, setData] = useState<any>()
-  const [companyCallState, setCompanyCallState] = useState<Company>()
-  const [supplyChainState, setSupplyChainState] = useState<string>()
+  const [data, setData] = useState<any>();
+  const [companyCallState, setCompanyCallState] = useState<Company>();
+  const [supplyChainState, setSupplyChainState] = useState<string>();
   const buttonVariant = (buttonFunction: SearchType) => {
     return buttonFunction === searchType ? "contained" : "outlined";
   };
@@ -22,44 +22,47 @@ export const UserFilterPage: React.FC = () => {
   const null_company: Company = {
     name: "",
     documentNumber: "",
-  }
+  };
 
-  const companyCall = useContractRead({
-    address: contractConfig.address as Address,
-    abi: contractConfig.abi,
-    functionName: "getCompany",
-    args: [data?.companyAddress]
-  }).data as Company ?? null_company;
+  const companyCall =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getCompany",
+      args: [data?.companyAddress],
+    }).data as Company) ?? null_company;
 
-  const supplyChain = useContractRead({
-    address: contractConfig.address as Address,
-    abi: contractConfig.abi,
-    functionName: "getSupplyChain",
-    args: [data?.supplyChainID]
-  }).data as string ?? "";
-
+  const supplyChain =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getSupplyChain",
+      args: [data?.supplyChainID],
+    }).data as string) ?? "";
 
   useEffect(() => {
     // let ignore = false;
 
     const fetchData = async (data: any) => {
-      const companyCall = useContractRead({
-        address: contractConfig.address as Address,
-        abi: contractConfig.abi,
-        functionName: "getCompany",
-        args: [data?.companyAddress]
-      }).data as Company ?? null_company;
+      const companyCall =
+        (useContractRead({
+          address: contractConfig.address as Address,
+          abi: contractConfig.abi,
+          functionName: "getCompany",
+          args: [data?.companyAddress],
+        }).data as Company) ?? null_company;
 
-      const supplyChain = useContractRead({
-        address: contractConfig.address as Address,
-        abi: contractConfig.abi,
-        functionName: "getSupplyChain",
-        args: [data?.supplyChainID]
-      }).data as string ?? "";
+      const supplyChain =
+        (useContractRead({
+          address: contractConfig.address as Address,
+          abi: contractConfig.abi,
+          functionName: "getSupplyChain",
+          args: [data?.supplyChainID],
+        }).data as string) ?? "";
 
-      setCompanyCallState(companyCall)
-      setSupplyChainState(supplyChain)
-    }
+      setCompanyCallState(companyCall);
+      setSupplyChainState(supplyChain);
+    };
 
     // async function fetchData() {
     //   const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query);
@@ -69,11 +72,8 @@ export const UserFilterPage: React.FC = () => {
   }, []);
 
   const handleSearchSubmit = (data: any) => {
-
-    setData(data)
-    console.log(data)
+    setData(data);
     if (searchType === SearchType.company) {
-
     } else if (searchType === SearchType.supplyChain) {
       // TODO - Exibir resultado
     } else {
@@ -129,13 +129,15 @@ export const UserFilterPage: React.FC = () => {
             </Typography>
           </Button>
           <div>
-            {searchType === SearchType.supplyChain && <p>Supply chain: {supplyChain}</p>}
-            {searchType === SearchType.company &&
+            {searchType === SearchType.supplyChain && (
+              <p>Supply chain: {supplyChain}</p>
+            )}
+            {searchType === SearchType.company && (
               <>
                 <p>Company call name: {companyCall.name}</p>
                 <p>Company call document: {companyCall.documentNumber}</p>
               </>
-            }
+            )}
           </div>
         </div>
       </form>

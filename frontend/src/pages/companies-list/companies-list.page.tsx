@@ -4,11 +4,11 @@ import { Company, Pagination } from "../../types";
 const MOCK_COMPANIES: Company[] = [
   {
     name: "Mocks S.A.",
-    documentNumber: "1234567"
+    documentNumber: "1234567",
   },
   {
     name: "M&M's dados",
-    documentNumber: "7654321"
+    documentNumber: "7654321",
   },
 ];
 

@@ -10,14 +10,16 @@ interface SupplyChainInvitesListPageProps {
 
 export const SupplyChainInvitesListPage: React.FC<
   SupplyChainInvitesListPageProps
-> = ({ setCurrentPage, setSupplyChainInviteID }: SupplyChainInvitesListPageProps) => {
-
-  const invites_list: number[] = useContractRead({
-    address: contractConfig.address as Address,
-    abi: contractConfig.abi,
-    functionName: "getInvites",
-  }).data as number[] ?? [];
-
+> = ({
+  setCurrentPage,
+  setSupplyChainInviteID,
+}: SupplyChainInvitesListPageProps) => {
+  const invites_list: number[] =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getInvites",
+    }).data as number[]) ?? [];
 
   return (
     <div className="d-flex flex-column align-items-center">
@@ -34,7 +36,7 @@ export const SupplyChainInvitesListPage: React.FC<
                 role="button"
                 onClick={() => {
                   setCurrentPage(Pagination.SupplyChainInvite);
-                  setSupplyChainInviteID(invite)
+                  setSupplyChainInviteID(invite);
                 }}
               >
                 <Typography variant="h6" color="ButtonText" fontWeight="600">

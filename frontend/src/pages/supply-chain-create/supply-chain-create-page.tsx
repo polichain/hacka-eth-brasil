@@ -35,26 +35,26 @@ export const SupplyChainCreatePage: React.FC<SupplyChainCreatePageProps> = ({
             Complete o cadastro de sua cadeia de suprimentos:
           </Typography>
 
-        <TextField
+          <TextField
             id="name"
             {...register("name", { required: true })}
             label="Nome da Cadeia de Suprimentos"
             sx={{ width: "50%" }}
-        />
-        <TextField
+          />
+          <TextField
             id="description"
             {...register("description", { required: true })}
             label="Descrição"
             sx={{ width: "50%" }}
-        />
+          />
 
-        <div className="d-flex flex-column align-items-center w-30">
-        <Button variant="outlined" type="submit">
-            <Typography variant="subtitle2" fontWeight="600">
-            Criar cadeia
-            </Typography>
-        </Button>
-        </div>
+          <div className="d-flex flex-column align-items-center w-30">
+            <Button variant="outlined" type="submit">
+              <Typography variant="subtitle2" fontWeight="600">
+                Criar cadeia
+              </Typography>
+            </Button>
+          </div>
         </div>
       </form>
     </FormProvider>
