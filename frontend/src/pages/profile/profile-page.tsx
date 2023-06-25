@@ -7,9 +7,6 @@ import { useEffect, useState } from "react";
 const MOCK_PROFILE: Company = {
   name: "Teste mock",
   documentNumber: "123456789",
-  category: "Teste mock",
-  description: "Teste mock",
-  location: "Teste mock",
 };
 
 interface ProfilePageProps {
@@ -33,10 +30,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     if (data_edit) {
       setFormData({
         name: data_edit.name,
-        description: data_edit.description,
-        documentNumber: data_edit.documentNumber,
-        location: data_edit.location,
-        category: data_edit.category,
+        documentNumber: data_edit.documentNumber
       });
     }
   }, []);
@@ -52,34 +46,10 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           disabled
         />
         <TextField
-          id="cnpj"
+          id="documentNumber"
           label="CNPJ da Empresa"
           sx={{ width: "50%" }}
           value={formData?.documentNumber}
-          disabled
-        />
-      </div>
-
-      <TextField
-        id="description"
-        label="Descrição"
-        value={formData?.description}
-        disabled
-      />
-
-      <div className="d-flex gap-3 w-100">
-        <TextField
-          id="address"
-          label="Endereço da Empresa"
-          sx={{ width: "50%" }}
-          value={formData?.location}
-          disabled
-        />
-        <TextField
-          id="category"
-          label="Categoria da Empresa"
-          sx={{ width: "50%" }}
-          value={formData?.category}
           disabled
         />
       </div>
