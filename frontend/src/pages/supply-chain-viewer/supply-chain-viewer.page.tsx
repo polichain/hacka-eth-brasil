@@ -3,7 +3,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Checkbox,
   Stack,
   TextField,
   Typography,
@@ -13,8 +12,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { suggestionRecord } from "./supply-chain-viewer.utils";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import { Pagination } from "../../types/pagination.type";
 
-export const SupplyChainViewerPage: React.FC = () => {
+interface SupplyChainViewerPageProps {
+  setCurrentPage: (page: Pagination) => void;
+}
+
+export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({setCurrentPage}) => {
   const form = useForm();
   const { register, handleSubmit } = form;
 
@@ -267,7 +271,7 @@ export const SupplyChainViewerPage: React.FC = () => {
                 variant="outlined"
                 onClick={(event) => {
                   event.stopPropagation();
-                  // handleVoteSuggestion(suggestion.id, false);
+                  setCurrentPage(Pagination.AssetCreate);
                 }}
               >
                 <Typography variant="subtitle2" fontWeight="500">

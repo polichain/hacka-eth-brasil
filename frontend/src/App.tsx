@@ -106,7 +106,7 @@ export function App() {
           <SupplyChainListPage setCurrentPage={setCurrentPage} setSupplyChainId={setSupplyChainId} />
         )}
         {currentPage === Pagination.SupplyChainViewer && (
-          <SupplyChainViewerPage />
+          <SupplyChainViewerPage setCurrentPage={setCurrentPage}/>
         )}
         {currentPage === Pagination.SupplyChainInvite && (
           <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
