@@ -1,6 +1,5 @@
 # ChainLinker
 
-Demo video link: [https://drive.google.com/drive/folders/1zVeBHvGMAzKKIPGJA7Jmmw8wlDAwieRW](https://drive.google.com/drive/u/1/folders/1zVeBHvGMAzKKIPGJA7Jmmw8wlDAwieRW)
 
 ChainLinker is a Decentralized Application (dApp) focused on businesses, where supply chain's creation and management become a very simple thing. It tracks down products’ path for the final client. 
 
