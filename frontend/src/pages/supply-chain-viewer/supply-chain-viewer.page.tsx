@@ -17,7 +17,7 @@ import { Role } from "../../types";
 
 interface SupplyChainViewerPageProps {
   supplyChainId: number;
-  setCurrentPage: (page: Pagination) => void;
+  setCurrentPage?: (page: Pagination) => void;
   role: Role;
 }
 
@@ -30,54 +30,58 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
   const { register, handleSubmit } = form;
 
   // INTEGRAR: id da supply dentro da variável 'supplyChainId'
-  console.log(supplyChainId);
 
-  const MOCK_SUPPLY_CHAIN = {
-    name: "Cadeia Mock chain",
-    description: "Cadeia de suprimentos de mocks para um aplicativo web",
+  const MOCK_SUPPLYCHAIN = {
+    name: "Cadeia Vinhos Merlot",
+    description: "Cadeia de produção de um lote de vinho",
+    members: [
+      {
+        name: "Sítio Nossa Sra. do Louvre",
+        documentNumber: "57.981.613/0001-74",
+      },
+      { name: "JadLog Logística S.A.", documentNumber: "04.884.082/0001-35" },
+      { name: "Vínicola Ascenção", documentNumber: "23.872.957/0001-23" },
+    ],
+    suggestions: [
+      { id: 1, type: "CHANGE_DESCRIPTION", isClosed: true, vote: true },
+      { id: 2, type: "ADD_MEMBER", isClosed: true, vote: true },
+      { id: 3, type: "ADD_MEMBER", isClosed: true, vote: true },
+      { id: 4, type: "CHANGE_NAME", isClosed: false, vote: null },
+    ],
+    assetsToReceive: [
+      {
+        id: 4,
+        description: "Lote 4 - Vinho Merlot",
+        from: "JadLog Logística S.A.",
+      },
+      {
+        id: 5,
+        description: "Lote 5 - Vinho Merlot",
+        from: "JadLog Logística S.A.",
+      },
+    ],
+    myAssets: [
+      {
+        id: 1,
+        description: "Lote 1 - Vinho Merlot",
+        from: "JadLog Logística S.A.",
+        createdAt: 1656098400000,
+      },
+      {
+        id: 2,
+        description: "Lote 2 - Vinho Merlot",
+        from: "JadLog Logística S.A.",
+        createdAt: 1659398400000,
+      },
+      {
+        id: 3,
+        description: "Lote 3 - Vinho Merlot",
+        from: "JadLog Logística S.A.",
+        createdAt: 1661498400000,
+      },
+    ],
   };
-
-  const MOCK_MEMBERS = [
-    { name: "Otávioooooooo", documentNumber: "0000000000000000" },
-    { name: "Mocks S.A", documentNumber: "12345678" },
-  ];
-
-  const MOCK_SUGGESTIONS = [
-    { id: 1, type: "CHANGE_NAME", isClosed: false, vote: null },
-    { id: 2, type: "CHANGE_DESCRIPTION", isClosed: true, vote: true },
-    { id: 3, type: "ADD_MEMBER", isClosed: false, vote: false },
-    { id: 4, type: "REMOVE_MEMBER", isClosed: true, vote: null },
-  ];
-
-  const MOCK_ASSETS = [
-    {
-      id: 1,
-      description: "Asset mockado por Limasturbo",
-      from: "abcdefg",
-      createdAt: 120,
-    },
-    {
-      id: 2,
-      description: "Asset mockado por Limamei",
-      from: "a1b2c3d4e5",
-      createdAt: 120,
-    },
-    {
-      id: 3,
-      description: "Asset mockado por Limamou",
-      from: "z9y8x7w6",
-      createdAt: 120,
-    },
-    {
-      id: 4,
-      description: "Asset mockado por Lima C. tei",
-      from: "ekrjhcgxi",
-      createdAt: 120,
-    },
-  ];
-
   const handleSubmitToSendAsset = (id: number) => {
-    console.log(id);
     // INTEGRAÇÃO PARA ENVIAR ASSET
   };
 
@@ -92,7 +96,7 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
   return (
     <div className="d-flex flex-column gap-3 p-3">
       <div className="d-flex justify-content-between">
-        <Typography variant="h4">{MOCK_SUPPLY_CHAIN.name}</Typography>
+        <Typography variant="h4">{MOCK_SUPPLYCHAIN.name}</Typography>
         {role === Role.company && (
           <Button variant="outlined" color="error">
             <Typography variant="subtitle2" fontWeight="600">
@@ -102,7 +106,7 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
         )}
       </div>
       <Typography variant="subtitle1">
-        {MOCK_SUPPLY_CHAIN.description}
+        {MOCK_SUPPLYCHAIN.description}
       </Typography>
 
       <Accordion>
@@ -114,9 +118,9 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
           <Typography variant="h6">Membros da cadeia</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {MOCK_MEMBERS.length && (
+          {MOCK_SUPPLYCHAIN.members.length && (
             <Stack spacing={2}>
-              {MOCK_MEMBERS.map((member, index) => {
+              {MOCK_SUPPLYCHAIN.members.map((member, index) => {
                 return (
                   <FormProvider {...form}>
                     <form
@@ -173,7 +177,7 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
                     variant="outlined"
                     onClick={(event) => {
                       event.stopPropagation();
-                      setCurrentPage(Pagination.SupplyChainSuggestion);
+                      setCurrentPage?.(Pagination.SupplyChainSuggestion);
                     }}
                   >
                     <Typography variant="subtitle2" fontWeight="500">
@@ -184,9 +188,9 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              {MOCK_SUGGESTIONS.length && (
+              {MOCK_SUPPLYCHAIN.suggestions.length && (
                 <Stack spacing={2}>
-                  {MOCK_SUGGESTIONS.map((suggestion) => {
+                  {MOCK_SUPPLYCHAIN.suggestions.map((suggestion) => {
                     return (
                       <div className="d-flex justify-content-between">
                         <div className="d-flex align-items-center gap-2">
@@ -256,9 +260,9 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
               <Typography variant="h6">Assets a receber</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {MOCK_ASSETS.length && (
+              {MOCK_SUPPLYCHAIN.assetsToReceive.length && (
                 <Stack spacing={2}>
-                  {MOCK_ASSETS.map((asset) => {
+                  {MOCK_SUPPLYCHAIN.assetsToReceive.map((asset) => {
                     return (
                       <div className="d-flex justify-content-between">
                         <Typography variant="h6">
@@ -308,7 +312,7 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
                     variant="outlined"
                     onClick={(event) => {
                       event.stopPropagation();
-                      setCurrentPage(Pagination.AssetCreate);
+                      setCurrentPage?.(Pagination.AssetCreate);
                     }}
                   >
                     <Typography variant="subtitle2" fontWeight="500">
@@ -319,9 +323,9 @@ export const SupplyChainViewerPage: React.FC<SupplyChainViewerPageProps> = ({
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              {MOCK_ASSETS.length && (
+              {MOCK_SUPPLYCHAIN.myAssets.length && (
                 <Stack spacing={2}>
-                  {MOCK_ASSETS.map((asset) => {
+                  {MOCK_SUPPLYCHAIN.myAssets.map((asset) => {
                     const timeStampDate = new Date(asset.createdAt).toString();
 
                     return (

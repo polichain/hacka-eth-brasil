@@ -61,7 +61,7 @@ export function App() {
   }, [isConnected]);
 
   useEffect(() => {
-    if (!selectedRole) {
+    if (isConnected && !selectedRole) {
       if (getCompanyByAddress?.name) {
         setSelectedRole(Role.company);
       } else {
