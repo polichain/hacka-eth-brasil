@@ -5,10 +5,11 @@ import contractConfig from "../../contracts/contract-config.json";
 
 interface SupplyChainListPageProps {
   setCurrentPage: (page: Pagination) => void;
+  setSupplyChainId: (id: number) => void;
 }
 
 export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
-  setCurrentPage,
+  setCurrentPage, setSupplyChainId
 }: SupplyChainListPageProps) => {
   const supplyChainId_list: number[] = useContractRead({
     address: contractConfig.address as Address,
@@ -53,8 +54,10 @@ export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
                 className="d-flex justify-content-between align-items-center gap-5 p-2 bg-info rounded"
                 key={supplyChainId}
                 role="button"
-                onClick={() => setCurrentPage(Pagination.Profile)}
-              >
+                onClick={() => {
+                  setSupplyChainId(supplyChainId)
+                  setCurrentPage(Pagination.Profile)
+                }}>
                 <div className="d-flex flex-column">
                   <Typography variant="h6" color="ButtonText" fontWeight="600">
                     SupplyChain - {supplyChainId}

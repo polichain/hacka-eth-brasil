@@ -26,6 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LinkIcon from "@mui/icons-material/Link";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import contractConfig from "./contracts/contract-config.json";
+import { AssetCreatePage } from "./pages/asset-create";
 
 export function App() {
   const { isConnected, address } = useAccount();
@@ -34,6 +35,7 @@ export function App() {
   const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
   const [selectedRole, setSelectedRole] = useState<Role>();
   const [supplyChainInviteID, setSupplyChainInviteID] = useState(0);
+  const [supplyChainId, setSupplyChainId] = useState(0);
 
   // Get contract data
   const getCompanyByAddress: Company | any = useContractRead({
@@ -100,7 +102,7 @@ export function App() {
           <CompaniesListPage setCurrentPage={setCurrentPage} />
         )}
         {currentPage === Pagination.SupplyChainList && (
-          <SupplyChainListPage setCurrentPage={setCurrentPage} />
+          <SupplyChainListPage setCurrentPage={setCurrentPage} setSupplyChainId={setSupplyChainId} />
         )}
         {currentPage === Pagination.SupplyChainInvite && (
           <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID}/>
@@ -110,6 +112,9 @@ export function App() {
         )}
         {currentPage === Pagination.SupplyChainCreate && (
           <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
+        )}
+        {currentPage === Pagination.AssetCreate && (
+          <AssetCreatePage setCurrentPage={setCurrentPage} supplyChainId={supplyChainId}/>
         )}
 
         {selectedRole && (
