@@ -77,104 +77,105 @@ export function App() {
         height: "100vh",
       }}
     >
-      <CssBaseline />
-      <AppBar
-        position="sticky"
-        sx={{ backgroundColor: theme.palette.background.default }}
-      >
-        <Toolbar sx={{ backgroundColor: "#212121" }}>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            ChainLinker
-          </Typography>
-          <ConnectButton />
-        </Toolbar>
-      </AppBar>
+      <div style={{ paddingBottom: "5rem" }}>
+        <CssBaseline />
+        <AppBar
+          position="sticky"
+          sx={{ backgroundColor: theme.palette.background.default }}
+        >
+          <Toolbar sx={{ backgroundColor: "#212121" }}>
+            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              ChainLinker
+            </Typography>
+            <ConnectButton />
+          </Toolbar>
+        </AppBar>
 
-      <div className="d-flex flex-column justify-content-between">
-        {currentPage === Pagination.Login && <LoginPage />}
-        {currentPage === Pagination.RoleSelector && (
-          <RoleSelectorPage
-            setCurrentPage={setCurrentPage}
-            setSelectedRole={setSelectedRole}
-          />
-        )}
-        {currentPage === Pagination.SignUp && (
-          <SignupPage setCurrentPage={setCurrentPage} />
-        )}
-        {currentPage === Pagination.UserFilter && <UserFilterPage />}
-        {currentPage === Pagination.Profile && (
-          <ProfilePage setCurrentPage={setCurrentPage} />
-        )}
-        {currentPage === Pagination.EditProfile && (
-          <EditProfilePage setCurrentPage={setCurrentPage} />
-        )}
-        {currentPage === Pagination.SupplyChainList && (
-          <SupplyChainListPage
-            setCurrentPage={setCurrentPage}
-            setSupplyChainId={setSupplyChainId}
-          />
-        )}
-        {currentPage === Pagination.SupplyChainViewer && (
-          <SupplyChainViewerPage setCurrentPage={setCurrentPage} />
-        )}
-        {currentPage === Pagination.SupplyChainInvite && (
-          <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
-        )}
-        {currentPage === Pagination.SupplyChainInvitesList && (
-          <SupplyChainInvitesListPage
-            setCurrentPage={setCurrentPage}
-            setSupplyChainInviteID={setSupplyChainInviteID}
-          />
-        )}
-        {currentPage === Pagination.SupplyChainCreate && (
-          <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
-        )}
-        {currentPage === Pagination.AssetCreate && (
-          <AssetCreatePage
-            setCurrentPage={setCurrentPage}
-            supplyChainId={supplyChainId}
-          />
-        )}
+        <div className="d-flex flex-column justify-content-between">
+          {currentPage === Pagination.Login && <LoginPage />}
+          {currentPage === Pagination.RoleSelector && (
+            <RoleSelectorPage
+              setCurrentPage={setCurrentPage}
+              setSelectedRole={setSelectedRole}
+            />
+          )}
+          {currentPage === Pagination.SignUp && (
+            <SignupPage setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === Pagination.UserFilter && <UserFilterPage />}
+          {currentPage === Pagination.Profile && (
+            <ProfilePage setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === Pagination.EditProfile && (
+            <EditProfilePage setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === Pagination.SupplyChainList && (
+            <SupplyChainListPage
+              setCurrentPage={setCurrentPage}
+              setSupplyChainId={setSupplyChainId}
+            />
+          )}
+          {currentPage === Pagination.SupplyChainViewer && (
+            <SupplyChainViewerPage setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === Pagination.SupplyChainInvite && (
+            <SupplyChainInvitePage supplyChainInviteID={supplyChainInviteID} />
+          )}
+          {currentPage === Pagination.SupplyChainInvitesList && (
+            <SupplyChainInvitesListPage
+              setCurrentPage={setCurrentPage}
+              setSupplyChainInviteID={setSupplyChainInviteID}
+            />
+          )}
+          {currentPage === Pagination.SupplyChainCreate && (
+            <SupplyChainCreatePage setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === Pagination.AssetCreate && (
+            <AssetCreatePage
+              setCurrentPage={setCurrentPage}
+              supplyChainId={supplyChainId}
+            />
+          )}
 
-        {selectedRole && isConnected && (
-          <BottomNavigation
-            sx={{
-              backgroundColor: "#212121",
-              width: "100%",
-              position: "absolute",
-              bottom: 0,
-              paddingTop: "50px",
-              paddingBottom: "50px",
-            }}
-            value={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
-            showLabels
-          >
-            {selectedRole === Role.company && (
-              <BottomNavigationAction
-                label="Perfil"
-                value={Pagination.Profile}
-                icon={<ApartmentIcon />}
-              />
-            )}
+          {selectedRole && isConnected && (
+            <BottomNavigation
+              sx={{
+                backgroundColor: "#212121",
+                width: "100%",
+                height: "5rem",
+                position: "fixed",
+                bottom: 0,
+              }}
+              value={currentPage}
+              onChange={(event, value) => setCurrentPage(value)}
+              showLabels
+            >
+              {selectedRole === Role.company && (
+                <BottomNavigationAction
+                  label="Perfil"
+                  value={Pagination.Profile}
+                  icon={<ApartmentIcon />}
+                />
+              )}
 
-            {selectedRole === Role.company && (
-              <BottomNavigationAction
-                label="Cadeias de suprimentos"
-                value={Pagination.SupplyChainList}
-                icon={<LinkIcon />}
-              />
-            )}
+              {selectedRole === Role.company && (
+                <BottomNavigationAction
+                  label="Cadeias de suprimentos"
+                  value={Pagination.SupplyChainList}
+                  icon={<LinkIcon />}
+                />
+              )}
 
-            {selectedRole === Role.user && (
-              <BottomNavigationAction
-                label="Procurar"
-                value={Pagination.UserFilter}
-                icon={<SearchIcon />}
-              />
-            )}
-          </BottomNavigation>
-        )}
+              {selectedRole === Role.user && (
+                <BottomNavigationAction
+                  label="Procurar"
+                  value={Pagination.UserFilter}
+                  icon={<SearchIcon />}
+                />
+              )}
+            </BottomNavigation>
+          )}
+        </div>
       </div>
     </div>
   );

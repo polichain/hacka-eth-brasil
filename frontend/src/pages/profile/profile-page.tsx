@@ -19,6 +19,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     abi: contractConfig.abi,
     functionName: "getCompany",
     args: [address],
+    watch: true,
   }).data;
 
   useEffect(() => {

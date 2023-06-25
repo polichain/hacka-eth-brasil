@@ -9,7 +9,8 @@ interface SupplyChainListPageProps {
 }
 
 export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
-  setCurrentPage, setSupplyChainId
+  setCurrentPage,
+  setSupplyChainId,
 }: SupplyChainListPageProps) => {
   const supplyChainId_list: number[] =
     (useContractRead({
@@ -57,12 +58,13 @@ export const SupplyChainListPage: React.FC<SupplyChainListPageProps> = ({
                 key={supplyChainId}
                 role="button"
                 onClick={() => {
-                  setSupplyChainId(supplyChainId)
-                  setCurrentPage(Pagination.SupplyChainViewer)
-                }}>
+                  setSupplyChainId(supplyChainId);
+                  setCurrentPage(Pagination.SupplyChainViewer);
+                }}
+              >
                 <div className="d-flex flex-column">
                   <Typography variant="h6" color="ButtonText" fontWeight="600">
-                    SupplyChain - {String(supplyChainId)}
+                    SupplyChain ID: {String(supplyChainId)}
                   </Typography>
                 </div>
               </div>
