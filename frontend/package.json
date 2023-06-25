@@ -1,5 +1,5 @@
 {
-	"name": "frontend-template",
+	"name": "chainlinker-frontend",
 	"version": "1.0.0",
 	"repository": {
 		"type": "git",
@@ -7,9 +7,6 @@
 	},
 	"author": "Polichain",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/polichain/hacka-eth-brazil/issues"
-	},
 	"homepage": "https://github.com/polichain/hacka-eth-brazil/frontend#readme",
 	"scripts": {
 		"dev": "vite",
