@@ -17,8 +17,8 @@ contract Asset is ERC721, Ownable {
     constructor() ERC721("Asset", "AST") {}
 
     function safeMint(string memory description, address to) public onlyOwner {
-        uint256 assetId = _assetIdCounter.current();
         _assetIdCounter.increment();
+        uint256 assetId = _assetIdCounter.current();
         _safeMint(to, assetId);
         Utils.AssetData storage asset = assets[assetId];
         asset.description = description;

@@ -25,7 +25,7 @@ export const AssetCreatePage: React.FC<AssetCreatePageProps> = ({
     write?.({
       args: [supplyChainId, data.description],
     });
-    setCurrentPage(Pagination.SupplyChainList);
+    setCurrentPage(Pagination.SupplyChainViewer);
   };
 
   return (
