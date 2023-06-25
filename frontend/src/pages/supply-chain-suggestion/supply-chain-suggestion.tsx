@@ -14,32 +14,36 @@ import { Pagination } from "../../types";
 
 interface SupplyChainSuggestionPageProps {
   setCurrentPage: (page: Pagination) => void;
+  supplyChainId: number;
 }
 
-export const SupplyChainSuggestionPage: React.FC<
-  SupplyChainSuggestionPageProps
-> = ({ setCurrentPage }: SupplyChainSuggestionPageProps) => {
+export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps> = ({
+  setCurrentPage, supplyChainId
+}: SupplyChainSuggestionPageProps) => {
   const form = useForm();
   const { handleSubmit, register } = form;
-  const [suggestion, setSuggestion] = React.useState("1");
-  const [suggestionLabel, setSuggestionLabel] = React.useState(
-    "Digite uma sugestão para alterar o nome:"
-  );
+  const [suggestion, setSuggestion] = React.useState<number>(1);
+  const [parameterType, setParameterType] = React.useState<string>('string');
+  const [suggestionLabel, setSuggestionLabel] = React.useState('Digite uma sugestão para alterar o nome:');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSuggestion(event.target.value as string);
+    setSuggestion(+event.target.value);
     switch (+event.target.value) {
+      case 0:
+        setSuggestionLabel('Digite uma sugestão para alterar o nome:');
+        setParameterType('string');
+        break;
       case 1:
-        setSuggestionLabel("Digite uma sugestão para alterar o nome:");
+        setSuggestionLabel('Digite uma sugestão para alterar a descrição:');
+        setParameterType('string');
         break;
       case 2:
-        setSuggestionLabel("Digite uma sugestão para alterar a descrição:");
+        setSuggestionLabel('Digite uma sugestão para adicionar um membro:');
+        setParameterType('address');
         break;
       case 3:
-        setSuggestionLabel("Digite uma sugestão para adicionar um membro:");
-        break;
-      case 4:
-        setSuggestionLabel("Digite uma sugestão para remover um membro:");
+        setSuggestionLabel('Digite uma sugestão para remover um membro:');
+        setParameterType('address');
         break;
       default:
         setSuggestionLabel("Digite uma sugestão para a cadeia de suprimentos:");
@@ -53,8 +57,9 @@ export const SupplyChainSuggestionPage: React.FC<
   });
 
   const handleSupplyChainSuggestionSubmit = (data: any) => {
+    const argsEncoded = encodeParameter(parameterType, data.suggestion);
     write?.({
-      args: [data.name, data.description], // mudar uint256 supplyChainId, Utils.SuggestionType suggestionType, bytes memory parameter
+      args: [supplyChainId, suggestion, argsEncoded],
     });
     setCurrentPage(Pagination.SupplyChainViewer);
   };
@@ -72,13 +77,14 @@ export const SupplyChainSuggestionPage: React.FC<
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={suggestion}
+            value={suggestion.toString()}
             onChange={handleChange}
           >
-            <MenuItem value={1}>Alterar Nome</MenuItem>
-            <MenuItem value={2}>Alterar Descrição </MenuItem>
-            <MenuItem value={3}>Adicionar Membro</MenuItem>
-            <MenuItem value={4}>Remover Membro</MenuItem>
+            <MenuItem value={0}>Alterar Nome</MenuItem>
+            <MenuItem value={1}>Alterar Descrição </MenuItem>
+            <MenuItem value={2}>Adicionar Membro</MenuItem>
+            <MenuItem value={3}>Remover Membro</MenuItem>
+
           </Select>
 
           <Typography variant="h6">{suggestionLabel}</Typography>
@@ -102,3 +108,7 @@ export const SupplyChainSuggestionPage: React.FC<
     </FormControl>
   );
 };
+function encodeParameter(parameterType: string, suggestion: any) {
+  throw new Error('Function not implemented.');
+}
+
