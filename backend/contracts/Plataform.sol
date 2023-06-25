@@ -22,21 +22,13 @@ contract Plataform {
         companies[msg.sender] = Utils.Company(name, documentNumber, _supplyChainsParticipant, _invitesToSupplyChain);
     }
 
-    function updateCompany(
-        string memory name,
-        string memory documentNumber
-    ) public {
-        require(bytes(companies[msg.sender].name).length != 0, "Company does not exist");
-        companies[msg.sender] = Utils.Company(name, documentNumber, companies[msg.sender].supplyChainsParticipant, companies[msg.sender].invitesToSupplyChain);
-    }
-
     function getCompany(address companyAddress) public view returns (Utils.Company memory) {
         return companies[companyAddress];
     }
 
     function createSupplyChain(string memory name, string memory description) public {
-        uint256 _supplyChainId = _supplyChainsIdCounter.current();
         _supplyChainsIdCounter.increment();
+        uint256 _supplyChainId = _supplyChainsIdCounter.current();
         SupplyChain newSupplyChain = new SupplyChain(name, description, this, _supplyChainId, msg.sender);
         supplyChains[_supplyChainId] = newSupplyChain;
         companies[msg.sender].supplyChainsParticipant.push(_supplyChainId);
@@ -88,6 +80,7 @@ contract Plataform {
 
     function enterSupplyChain(uint256 supplyChainId) public {
         supplyChains[supplyChainId].enterSupplyChain(msg.sender);
+        companies[msg.sender].supplyChainsParticipant.push(supplyChainId);
         for (uint i = 0; i < companies[msg.sender].invitesToSupplyChain.length; i++) {
             if (companies[msg.sender].invitesToSupplyChain[i] == supplyChainId) {
                 uint256 lastIndex = companies[msg.sender].invitesToSupplyChain.length - 1;
@@ -132,5 +125,9 @@ contract Plataform {
 
     function voteForSuggestion(uint256 supplyChainId, uint256 suggestionId, bool vote) public {
         supplyChains[supplyChainId].voteForSuggestion(msg.sender, suggestionId, vote);
+    }
+
+    function addInvite(uint256 supplyChainId, address to) public {
+        companies[to].invitesToSupplyChain.push(supplyChainId);
     }
 }
