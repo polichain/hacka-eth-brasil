@@ -25,12 +25,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import LinkIcon from "@mui/icons-material/Link";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import contractConfig from "./contracts/contract-config.json";
+import { SupplyChainViewerPage } from "./pages/supply-chain-viewer";
 
 export function App() {
   const { isConnected, address } = useAccount();
   const theme = useTheme();
 
-  const [currentPage, setCurrentPage] = useState<Pagination>(Pagination.Login);
+  const [currentPage, setCurrentPage] = useState<Pagination>(
+    Pagination.SupplyChainViewer
+  );
   const [selectedRole, setSelectedRole] = useState<Role>();
 
   // Get contract data
@@ -99,6 +102,10 @@ export function App() {
         )}
         {currentPage === Pagination.SupplyChainList && (
           <SupplyChainListPage setCurrentPage={setCurrentPage} />
+        )}
+
+        {currentPage === Pagination.SupplyChainViewer && (
+          <SupplyChainViewerPage />
         )}
         {currentPage === Pagination.SupplyChainInvite && (
           <SupplyChainInvitePage />
