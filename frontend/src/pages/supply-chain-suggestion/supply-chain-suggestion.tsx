@@ -15,8 +15,8 @@ export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps>
 }: SupplyChainSuggestionPageProps) => {
   const form = useForm();
   const { handleSubmit, register } = form;
-  const [suggestion, setSuggestion] = React.useState('');
-  const [suggestionLabel, setSuggestionLabel] = React.useState('');
+  const [suggestion, setSuggestion] = React.useState('1');
+  const [suggestionLabel, setSuggestionLabel] = React.useState('Digite uma sugestão para alterar o nome:');
 
   const handleChange = (event: SelectChangeEvent) => {
     setSuggestion(event.target.value as string);
@@ -41,12 +41,12 @@ export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps>
   const { write, data, error, isLoading, isError } = useContractWrite({
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
-    functionName: "createSupplyChain", // mudar 
+    functionName: "makeSuggestion", 
   });
 
   const handleSupplyChainSuggestionSubmit = (data: any) => {
     write?.({
-      args: [data.name, data.description], // mudar
+      args: [data.name, data.description], // mudar uint256 supplyChainId, Utils.SuggestionType suggestionType, bytes memory parameter
     });
     setCurrentPage(Pagination.Login); // mudar
   };  
