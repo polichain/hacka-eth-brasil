@@ -41,19 +41,20 @@ export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps>
   const { write, data, error, isLoading, isError } = useContractWrite({
     address: contractConfig.address as Address,
     abi: contractConfig.abi,
-    functionName: "makeSuggestion", 
+    functionName: "makeSuggestion",
   });
 
   const handleSupplyChainSuggestionSubmit = (data: any) => {
     write?.({
       args: [data.name, data.description], // mudar uint256 supplyChainId, Utils.SuggestionType suggestionType, bytes memory parameter
     });
-    setCurrentPage(Pagination.Login); // mudar
-  };  
+    setCurrentPage(Pagination.SupplyChainViewer);
+  };
 
   return (
     <FormControl fullWidth>
-      <div className="d-flex flex-column align-items-center px-3 pt-3 gap-3">
+      <form onSubmit={handleSubmit((data) => handleSupplyChainSuggestionSubmit(data))}>
+        <div className="d-flex flex-column align-items-center px-3 pt-3 gap-3">
 
           <Typography variant="h6">
             Selecione um tipo de sugestão
@@ -76,22 +77,22 @@ export const SupplyChainSuggestionPage: React.FC<SupplyChainSuggestionPageProps>
             {suggestionLabel}
           </Typography>
 
-        <TextField
+          <TextField
             id="suggestion"
             {...register("suggestion", { required: true })}
             label="Sugestão"
             sx={{ width: "50%" }}
-        />
+          />
 
-        <div className="d-flex flex-column align-items-center w-30">
-        <Button variant="outlined" type="submit">
-            <Typography variant="subtitle2" fontWeight="600">
-            Publicar sugestão
-            </Typography>
-        </Button>
+          <div className="d-flex flex-column align-items-center w-30">
+            <Button variant="outlined" type="submit">
+              <Typography variant="subtitle2" fontWeight="600">
+                Publicar sugestão
+              </Typography>
+            </Button>
+          </div>
         </div>
-        </div>
-    
-  </FormControl>
+      </form>
+    </FormControl>
   );
 };
