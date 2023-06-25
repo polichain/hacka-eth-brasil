@@ -11,8 +11,7 @@ import { SupplyChainViewerPage } from "../supply-chain-viewer";
 export const UserFilterPage: React.FC = () => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.company);
   const [data, setData] = useState<any>();
-  const [companyCallState, setCompanyCallState] = useState<Company>();
-  const [supplyChainState, setSupplyChainState] = useState<number>();
+  const [showResult, setShowResult] = useState(false);
 
   const buttonVariant = (buttonFunction: SearchType) => {
     return buttonFunction === searchType ? "contained" : "outlined";
@@ -26,39 +25,38 @@ export const UserFilterPage: React.FC = () => {
     documentNumber: "",
   };
 
-  useEffect(() => {
-    const fetchData = async (data: any) => {
-      const companyCall =
-        (useContractRead({
-          address: contractConfig.address as Address,
-          abi: contractConfig.abi,
-          functionName: "getCompany",
-          args: [data?.companyAddress],
-        }).data as Company) ?? null_company;
+  const companyCall =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getCompany",
+      args: [data?.companyAddress],
+    }).data as Company) ?? null_company;
 
-      const supplyChain =
-        (useContractRead({
-          address: contractConfig.address as Address,
-          abi: contractConfig.abi,
-          functionName: "getSupplyChain",
-          args: [data?.supplyChainID],
-        }).data as number) ?? 0;
-
-      setCompanyCallState(companyCall);
-      setSupplyChainState(supplyChain);
-    };
-
-    fetchData(data);
-  }, [data]);
+  const supplyChain =
+    (useContractRead({
+      address: contractConfig.address as Address,
+      abi: contractConfig.abi,
+      functionName: "getSupplyChain",
+      args: [data?.supplyChainID],
+    }).data as number) ?? 0;
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit((data) => setData(data))}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          setData(data);
+          setShowResult(true);
+        })}
+      >
         <div className="d-flex flex-column align-items-center px-3 pt-3 gap-3">
           <div className="d-flex gap-3">
             <Button
               variant={buttonVariant(SearchType.company)}
-              onClick={() => setSearchType(SearchType.company)}
+              onClick={() => {
+                setSearchType(SearchType.company);
+                setShowResult(false);
+              }}
             >
               <Typography variant="subtitle2" fontWeight="600">
                 Pesquisar empresa
@@ -67,7 +65,10 @@ export const UserFilterPage: React.FC = () => {
 
             <Button
               variant={buttonVariant(SearchType.supplyChain)}
-              onClick={() => setSearchType(SearchType.supplyChain)}
+              onClick={() => {
+                setSearchType(SearchType.supplyChain);
+                setShowResult(false);
+              }}
             >
               <Typography variant="subtitle2" fontWeight="600">
                 Pesquisar cadeia de suprimentos
@@ -99,25 +100,28 @@ export const UserFilterPage: React.FC = () => {
             </Typography>
           </Button>
           <div>
-            {searchType === SearchType.supplyChain && supplyChainState && (
-              <SupplyChainViewerPage
-                supplyChainId={supplyChainState}
-                role={Role.user}
-              />
+            {searchType === SearchType.supplyChain && showResult && (
+              <div className="w-100">
+                <SupplyChainViewerPage
+                  supplyChainId={supplyChain}
+                  role={Role.user}
+                />
+              </div>
             )}
-            {searchType === SearchType.company && companyCallState && (
+
+            {searchType === SearchType.company && showResult && (
               <>
                 <div className="d-flex px-3 pt-3 gap-3">
                   <TextField
                     id="companyName"
-                    value={companyCallState?.name}
+                    value={companyCall.name}
                     label="Nome da Empresa"
                     sx={{ width: "50%" }}
                     disabled
                   />
                   <TextField
                     id="companyDocumentNumber"
-                    value={companyCallState?.documentNumber}
+                    value={companyCall.documentNumber}
                     label="CNPJ da Empresa"
                     sx={{ width: "50%" }}
                     disabled
